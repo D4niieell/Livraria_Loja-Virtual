@@ -1,0 +1,434 @@
+Livraria Online
+Passo a Passo — Backend com Node.js + MySQL
+
+(Versão para Prática dos Alunos)
+Enunciado
+
+Um cliente proprietário de uma livraria está contratando você para desenvolver um sistema backend de uma livraria online, para que ele possa cadastrar e vender livros pela internet. O sistema deverá permitir o gerenciamento de clientes, categorias de livros, editoras, livros e compras.
+
+Você deverá criar uma API REST utilizando Node.js com o framework Express, conectada a um banco de dados MySQL, seguindo a estrutura de pastas e arquivos apresentada neste roteiro.
+
+    💡 O que é uma API REST? É um sistema que permite que diferentes aplicações se comuniquem pela internet usando o protocolo HTTP. No nosso caso, o backend vai receber requisições (como "me dê a lista de livros" ou "cadastre esse cliente") e responder com dados em formato JSON.
+
+Tabelas do Banco de Dados
+
+O sistema possui as seguintes tabelas no banco de dados MySQL. Você as usará para montar as queries SQL dentro dos models:
+
+Tabela | Campos
+
+clientes | id_cliente (int), nome (varchar 100), email (varchar 100), telefone (varchar 20), data_cadastro (timestamp), cidade (varchar 100), estado (char 2)
+
+categorias | id_categoria (int), categoria (varchar 100)
+
+editoras | id_editora (int), nome (varchar 100), email (varchar 100), telefone (varchar 20), data_cadastro (timestamp)
+
+livros | id_livro (int), titulo (varchar 150), autor (varchar 100), ano_publicacao (year), preco (decimal 10,2), id_editora (int), id_categoria (int)
+
+compras | id_compra (int), qtde (int), valor (decimal 10,2), desconto (decimal 10,2), data_compra (timestamp), id_livro (int), id_cliente (int) 
+
+Estrutura de Pastas do Projeto
+
+Antes de começar, veja como o projeto deve estar organizado ao final. Cada pasta tem uma responsabilidade específica:
+
+livraria_loja_virtual/
+  backend/
+    .env                  ← variáveis de ambiente (senhas, configurações)
+    server.js             ← arquivo principal que inicia o servidor
+    package.json          ← gerado automaticamente pelo npm
+    src/
+      database/
+        connection.js     ← configuração da conexão com o MySQL
+      models/
+        clienteModel.js   ← queries SQL da tabela clientes
+        categoriaModel.js ← queries SQL da tabela categorias
+        editoraModel.js   ← queries SQL da tabela editoras
+        livroModel.js     ← queries SQL da tabela livros
+        compraModel.js    ← queries SQL da tabela compras
+      controllers/
+        clienteController.js   ← lógica de negócio dos clientes
+        categoriaController.js ← lógica de negócio das categorias
+        editoraController.js   ← lógica de negócio das editoras
+        livroController.js     ← lógica de negócio dos livros
+        compraController.js    ← lógica de negócio das compras
+      routes/
+        clienteRoutes.js   ← define as URLs de acesso aos clientes
+        categoriaRoutes.js ← define as URLs de acesso às categorias
+        editoraRoutes.js   ← define as URLs de acesso às editoras
+        livroRoutes.js     ← define as URLs de acesso aos livros
+        compraRoutes.js    ← define as URLs de acesso às compras
+      middlewares/         ← funções intermediárias (ex: autenticação)
+      utils/               ← funções auxiliares reutilizáveis
+
+    💡 Por que separar em pastas? Essa organização segue um padrão chamado MVC (Model-View-Controller). Cada parte do código tem uma responsabilidade clara, o que facilita a manutenção e o entendimento do projeto.
+
+    Passo a Passo
+
+Passo 1 — Criar a pasta do projeto
+
+Crie uma pasta com o nome do projeto no local onde você costuma salvar seus projetos. Você pode criar pelo próprio Explorador de Arquivos do Windows — clique com o botão direito e escolha "Nova Pasta".
+
+    Sugestão de nome: livraria_loja_virtual
+
+---
+
+Passo 2 — Abrir o projeto no VSCode
+
+Abra o Visual Studio Code. No menu superior, clique em Arquivo → Abrir Pasta e selecione a pasta que você criou no passo anterior.
+
+    💡 Você também pode abrir pelo terminal com o comando code . dentro da pasta do projeto.
+
+---
+
+Passo 3 — Criar a pasta backend
+
+Com o VSCode aberto, localize o painel de arquivos à esquerda. Clique no ícone de nova pasta e crie uma pasta chamada backend dentro do projeto.
+
+    💡 Todo o código do servidor ficará dentro desta pasta. Separar o backend em sua própria pasta facilita a organização caso futuramente o projeto tenha também um frontend.
+
+Passo 4 — Criar o arquivo server.js
+
+Dentro da pasta backend, crie um arquivo chamado server.js. Este será o arquivo principal da aplicação — é ele que vai iniciar o servidor, configurar os middlewares e registrar todas as rotas.
+
+    💡 Por enquanto deixe o arquivo vazio. Você vai preenchê-lo nos próximos passos.
+
+---
+
+Passo 5 — Abrir o terminal e navegar até a pasta backend
+
+Abra o terminal integrado do VSCode pelo menu Terminal → Novo Terminal. Em seguida, navegue até a pasta backend com o comando:
+
+cd backend
+
+    💡 O comando cd significa "change directory" (mudar de diretório). Todos os comandos npm dos próximos passos precisam ser executados dentro da pasta backend.
+
+---
+
+Passo 6 — Inicializar o projeto Node.js com npm init
+
+Com o terminal dentro da pasta backend, execute o seguinte comando:
+
+npm init -y
+
+O que esse comando faz? Ele cria o arquivo package.json, que é como uma "ficha de identidade" do projeto Node.js. Nele ficam registrados o nome do projeto, a versão, os scripts que podem ser executados e todas as dependências instaladas. A flag -y aceita todas as configurações padrão automaticamente.
+
+    💡 Após executar, verifique se o arquivo package.json apareceu dentro da pasta backend.
+
+---
+
+Passo 7 — Instalar as dependências do projeto
+
+Agora vamos instalar os pacotes que o projeto vai usar. Execute o comando abaixo no terminal:
+
+npm install express bcrypt jsonwebtoken dotenv cors mysql2
+
+Para que serve cada pacote?
+
+Pacote | Função
+
+express | Framework que facilita a criação de servidores e rotas HTTP
+
+bcrypt | Criptografa senhas antes de salvar no banco de dados
+
+jsonwebtoken | Gera e valida tokens JWT para autenticação
+
+dotenv | Carrega variáveis de ambiente do arquivo .env
+
+cors | Permite que outros domínios acessem a API (Cross-Origin Resource Sharing)
+
+mysql2 | Driver para conectar o Node.js ao banco de dados MySQL
+
+    💡 Após a instalação, uma pasta node_modules será criada automaticamente dentro de backend. Nunca envie essa pasta para o GitHub — ela pode ser recriada com o comando npm install.
+
+---
+
+Passo 8 — Instalar o nodemon como dependência de desenvolvimento
+
+Execute o comando abaixo para instalar o nodemon:
+
+npm install -D nodemon
+
+O que é o nodemon? É uma ferramenta que monitora os arquivos do projeto e reinicia o servidor automaticamente toda vez que você salva uma alteração. Sem ele, você precisaria parar e reiniciar o servidor manualmente a cada mudança no código.
+
+A flag -D instala o pacote apenas como dependência de desenvolvimento — ele não é necessário quando o sistema estiver em produção.
+
+Passo 9 — Criar a pasta src
+
+Dentro da pasta backend, crie uma subpasta chamada src (abreviação de source, ou seja, "código fonte"). Toda a lógica da aplicação ficará organizada dentro dela.
+
+---
+
+Passo 10 — Criar as subpastas dentro de src
+
+Dentro da pasta src, crie as seguintes subpastas:
+
+    database — conexão com o banco de dados
+    models — queries SQL de cada tabela
+    controllers — lógica de negócio de cada entidade
+    routes — definição das rotas/URLs da API
+    middlewares — funções intermediárias (como verificação de token JWT)
+    utils — funções auxiliares reutilizáveis
+
+    💡 Você pode criar todas pelo painel do VSCode clicando com o botão direito sobre a pasta src e escolhendo "Nova Pasta".
+
+---
+
+Passo 11 — Criar o arquivo .env
+
+Na raiz da pasta backend (no mesmo nível do server.js), crie um arquivo chamado .env (com o ponto no início).
+
+Este arquivo armazena as variáveis de ambiente do projeto — informações sensíveis como senha do banco de dados e chave secreta do JWT que não devem ser escritas diretamente no código.
+
+O arquivo deve conter as seguintes variáveis:
+
+    O host do banco de dados (geralmente localhost)
+    O usuário do MySQL (geralmente root)
+    A senha do MySQL
+    O nome do banco de dados que você criou no MySQL
+    Uma chave secreta para geração dos tokens JWT (pode ser qualquer texto longo e aleatório)
+    A porta em que o servidor vai rodar (ex: 3000)
+
+    ⚠️ Importante: Nunca envie o arquivo .env para o GitHub. Adicione-o ao .gitignore.
+
+    💡 Como carregar essas variáveis no código? Use o pacote dotenv com o comando require('dotenv').config() no início dos arquivos que precisam acessá-las. Depois, você acessa cada variável com process.env.NOME_DA_VARIAVEL.
+
+---
+
+Passo 12 — Configurar os scripts no package.json
+
+Abra o arquivo package.json e localize a seção "scripts". Você precisará adicionar dois scripts:
+
+    start — executa o servidor normalmente com o Node.js (usado em produção)
+    dev — executa o servidor com o nodemon (usado durante o desenvolvimento)
+
+    💡 Após configurar, você poderá iniciar o servidor de desenvolvimento com npm run dev em vez de precisar digitar o caminho completo do arquivo toda vez.
+
+---
+
+Passo 13 — Configurar o arquivo server.js
+
+Agora chegou a hora de escrever o código principal da aplicação. Abra o server.js e implemente o seguinte:
+
+    Importe o express e crie uma instância do app com express()
+    Importe o cors para permitir requisições de outras origens
+    Importe o dotenv e chame .config() para carregar as variáveis do .env
+    Defina a porta do servidor usando process.env.PORT (com fallback para 3000)
+    Registre os middlewares cors() e express.json() com app.use()
+    Importe os arquivos de rotas de cada entidade (você criará esses arquivos nos próximos passos)
+    Registre cada rota com app.use('/nome-da-rota', arquivoDeRotas)
+    Inicie o servidor com app.listen() exibindo uma mensagem no console
+
+    💡 O express.json() é necessário para que o servidor consiga ler o corpo (body) das requisições POST e PUT em formato JSON.
+
+    💡 No passo 7, use os prefixos: /clientes, /categorias, /editoras, /livros e /compras.
+
+---
+
+Passo 14 — Criar a conexão com o banco de dados
+
+Dentro da pasta src/database, crie o arquivo database.js. Este arquivo será responsável por criar um pool de conexões com o MySQL e exportá-lo para ser usado pelos models.
+
+    💡 O que é um pool de conexões? Em vez de abrir e fechar uma conexão a cada query, o pool mantém um conjunto de conexões prontas para uso. Isso é muito mais eficiente e é a abordagem recomendada para aplicações reais. Usaremos mysql2/promise, que é a versão do mysql2 que suporta async/await nativamente.
+
+Para criar o pool, você precisará:
+
+    Importar o mysql2/promise usando a sintaxe ES Modules: import mysql from 'mysql2/promise'
+    Importar o dotenv — como estamos usando ES Modules, use import 'dotenv/config' (sem precisar chamar .config() separadamente)
+    Criar o pool com mysql.createPool({}) passando as propriedades:
+        host — use process.env.DB_HOST
+        user — use process.env.DB_USER
+        password — use process.env.DB_PASSWORD
+        database — use process.env.DB_NAME
+    Exportar o pool usando export default pool
+
+    💡 ES Modules vs CommonJS: o projeto usará a sintaxe moderna de módulos do JavaScript (import/export) em vez do require/module.exports tradicional do Node.js. Para habilitar isso, você precisará adicionar "type": "module" no seu package.json.
+
+    ⚠️ Lembre-se de adicionar "type": "module" no package.json antes de continuar, caso contrário o Node.js não reconhecerá a sintaxe import/export.
+
+---
+
+Passo 15 — Criar os Models
+
+Os models são responsáveis por toda a comunicação com o banco de dados. Cada model é uma classe com métodos async que executam as queries SQL e retornam os resultados diretamente — sem callbacks.
+
+Crie um arquivo de model para cada tabela dentro de src/models: clienteModel.js, categoriaModel.js, editoraModel.js, livroModel.js e compraModel.js
+
+Cada model deve seguir esta estrutura:
+
+    Importar o pool do arquivo database.js com import pool from '../database/database.js'
+
+    Criar uma classe com o nome do arquivo em PascalCase (ex: ClientesModel para o arquivo clienteModel.js)
+
+    Implementar os métodos da classe, todos com a palavra-chave async:
+
+        showNomeDaEntidade() — busca todos os registros com SELECT * FROM nome_da_tabela
+
+        getNomeDaEntidadeById(id) — busca um registro pelo ID com SELECT * FROM ... WHERE id_campo = ?
+
+        createNomeDaEntidade(data) — desestrutura os campos de data e executa INSERT INTO ...
+
+        updateNomeDaEntidade(id, data) — desestrutura os campos de data e executa UPDATE ... SET ... WHERE id_campo = ?
+
+        deleteNomeDaEntidade(id) — executa DELETE FROM ... WHERE id_campo = ?
+
+    Executar as queries com await pool.execute(sql, [parametros]). O método execute() retorna um array — o primeiro elemento [rows] (ou [row]) contém os dados retornados pelo MySQL. Use desestruturação para capturá-lo:
+
+    const [rows] = await pool.execute("SELECT * FROM ...");
+    return rows;
+
+    Retornar o resultado diretamente com return rows ou return row — sem callbacks, sem res.json(), apenas o dado bruto que o controller irá usar.
+
+    Exportar uma instância da classe com export default new NomeDaClasseModel()
+
+    💡 Por que usar class em vez de um objeto simples? A sintaxe de classe deixa o código mais organizado, legível e alinhado com a programação orientada a objetos. Ao exportar new NomeDaClasse(), você exporta uma instância pronta para uso — quem importar o model já pode chamar os métodos diretamente.
+
+    💡 Por que async/await em vez de callbacks? O async/await torna o código assíncrono muito mais fácil de ler e entender — ele parece código sequencial, linha por linha. Com callbacks, o código ficava "aninhado" e difícil de acompanhar (o famoso "callback hell").
+
+    💡 Por que usar ? nas queries? O ? é um parâmetro de substituição que o mysql2 preenche com segurança antes de executar a query, evitando o ataque chamado SQL Injection — uma técnica maliciosa em que um usuário insere código SQL no lugar de dados normais.
+
+    💡 Atenção no livroModel.js: no método showLivros(), considere usar JOIN com as tabelas categorias e editoras para trazer o nome da categoria e da editora junto com os dados do livro.
+
+    💡 Atenção no compraModel.js: no método showCompras(), considere usar JOIN com livros e clientes para trazer o título do livro e o nome do cliente junto com os dados da compra.
+
+---
+
+Passo 16 — Criar os Controllers
+
+Os controllers fazem a ponte entre as rotas e os models. Eles recebem a requisição HTTP, chamam o método adequado do model com await, tratam erros com try/catch e enviam a resposta ao cliente.
+
+Crie um arquivo de controller para cada entidade dentro de src/controllers: clienteController.js, categoriaController.js, editoraController.js, livroController.js e compraController.js
+
+Cada controller deve seguir esta estrutura:
+
+    Importar o model correspondente com import NomeDaEntidadeModel from '../models/nomeDoModel.js'
+
+    Criar uma classe com o nome do arquivo em PascalCase (ex: ClientesController)
+
+    Implementar os métodos da classe, todos com async e recebendo (req, res):
+        showNomeDaEntidade(req, res) — chama await Model.showNomeDaEntidade() e retorna com res.json()
+        getNomeDaEntidadeById(req, res) — obtém o id via req.params.id, chama await Model.getNomeDaEntidadeById(id). Se o resultado estiver vazio (result.length === 0), retorne res.status(404).json()
+        createNomeDaEntidade(req, res) — obtém os dados via req.body, chama await Model.createNomeDaEntidade(req.body) e retorne res.status(201).json()
+        updateNomeDaEntidade(req, res) — obtém id via req.params.id e dados via req.body, chama await Model.updateNomeDaEntidade(id, req.body) e retorna uma mensagem de sucesso
+        deleteNomeDaEntidade(req, res) — obtém id via req.params.id, chama await Model.deleteNomeDaEntidade(id) e retorna uma mensagem de sucesso
+
+    Envolver cada método em try/catch — no bloco catch, retorne res.status(500).json({ error: error.message }) para tratar erros inesperados
+
+    Exportar uma instância da classe com export default new NomeDaClasseController()
+
+    💡 Por que try/catch em vez de verificar o erro no callback? Como os métodos agora são async/await, qualquer erro lançado pelo pool.execute() dentro do model vai "subir" automaticamente como uma exceção. O try/catch no controller captura essa exceção de forma limpa e centralizada.
+
+    💡 Códigos de status HTTP mais usados:
+
+        200 — OK (padrão para respostas bem-sucedidas com res.json())
+        201 — Created (usado quando um novo registro é criado com sucesso)
+        404 — Not Found (quando o registro buscado não existe)
+        500 — Internal Server Error (quando ocorre um erro inesperado no servidor)
+
+---
+
+Passo 17 — Criar as Rotas
+
+Os arquivos de rotas definem quais URLs a API vai expor e qual função do controller será chamada para cada combinação de URL + método HTTP.
+
+Crie um arquivo de rotas para cada entidade dentro de src/routes: clienteRoutes.js, categoriaRoutes.js, editoraRoutes.js, livroRoutes.js e compraRoutes.js
+
+Cada arquivo de rotas deve seguir esta estrutura:
+
+    Importar o express e criar um router com express.Router()
+    Importar o controller correspondente
+    Definir as rotas conectando cada combinação de método + URL a uma função do controller:
+        router.get('/', ...) → chama a função getAll
+        router.get('/:id', ...) → chama a função getById
+        router.post('/', ...) → chama a função create
+        router.put('/:id', ...) → chama a função update
+        router.delete('/:id', ...) → chama a função delete
+    Exportar o router com module.exports = router
+
+    💡 O que significa /:id? É um parâmetro de rota. Quando alguém acessa /clientes/5, o valor 5 fica disponível no controller através de req.params.id.
+
+    💡 Métodos HTTP e suas funções:
+
+        GET — busca dados (não altera nada no banco)
+        POST — cria um novo registro
+        PUT — atualiza um registro existente
+        DELETE — remove um registro
+
+---
+
+Passo 18 — Registrar as rotas no server.js
+
+Volte ao arquivo server.js. Você precisará importar todos os cinco arquivos de rotas criados no passo anterior e registrá-los no app usando app.use(), associando cada um a um prefixo de URL.
+
+Os prefixos devem ser:
+
+    /clientes para as rotas de clientes
+
+    /categorias para as rotas de categorias
+
+    /editoras para as rotas de editoras
+
+    /livros para as rotas de livros
+
+    /compras para as rotas de compras
+
+    💡 Como funciona o app.use('/clientes', clienteRoutes)? Significa que todas as rotas definidas dentro de clienteRoutes.js serão acessadas com o prefixo /clientes. Por exemplo, o router.get('/') do arquivo de rotas se tornará GET /clientes, e o router.get('/:id') se tornará GET /clientes/:id.
+
+---
+
+Passo 19 — Iniciar o servidor
+
+Com tudo configurado, inicie o servidor em modo de desenvolvimento com o comando:
+
+npm run dev
+
+Se tudo estiver correto, você verá no terminal as mensagens que você configurou — uma confirmando que o servidor está rodando (ex: Servidor rodando na porta 3000) e outra confirmando a conexão com o banco de dados (ex: Conectado ao banco de dados MySQL!).
+
+    ⚠️ Erros comuns neste passo:
+
+        Cannot find module '...' — verifique se o caminho do require() está correto
+        Access denied for user 'root' — verifique as credenciais no arquivo .env
+        Unknown database — confirme se o banco de dados foi criado no MySQL com o mesmo nome definido no .env
+        EADDRINUSE: address already in use — a porta já está sendo usada por outro processo; troque a porta no .env
+
+---
+
+Passo 20 — Testar os endpoints com Insomnia ou Postman
+
+Com o servidor rodando, use o Insomnia ou o Postman para testar cada endpoint da API. Esses são programas que permitem fazer requisições HTTP e visualizar as respostas sem precisar de um frontend.
+
+Para cada entidade (clientes, categorias, editoras, livros e compras), teste:
+
+Ação -	Método -    URL  -	Body (JSON)
+
+Listar todos  -  GET -	http://localhost:3000/clientes 	—
+
+Buscar por ID - GET - http://localhost:3000/clientes/1 	—
+
+Criar novo - POST - http://localhost:3000/clientes - Sim (com os campos da tabela)
+
+Atualizar - PUT - http://localhost:3000/clientes/1 - Sim (com os campos a atualizar)
+
+Deletar  - DELETE - http://localhost:3000/clientes/1 	—
+
+    💡 Dicas para testar com o Insomnia/Postman:
+
+        Para requisições POST e PUT, selecione o corpo (body) como JSON e passe os dados no formato { "nome": "João", "email": "joao@email.com", ... }
+        Verifique sempre o código de status da resposta: 200 ou 201 indicam sucesso, 404 indica não encontrado, 500 indica erro no servidor
+        Se receber um erro 500, leia a mensagem de erro retornada no JSON — ela geralmente indica exatamente o que está errado
+
+---
+
+Resumo da Arquitetura
+
+Requisição HTTP
+      ↓
+   Routes          ← define qual URL chama qual controller
+      ↓
+  Controllers      ← recebe req, chama o model, devolve res
+      ↓
+    Models         ← executa o SQL no banco de dados
+      ↓
+   MySQL DB        ← armazena e retorna os dados
+
+Bons estudos e bom desenvolvimento!
+
+---
