@@ -6,8 +6,8 @@ const routerEditoras = express.Router();
 
 routerEditoras.get('/', EditoraController.showEditoras);
 routerEditoras.get('/:id', EditoraController.getEditoraById);
-// routerEditoras.post('/', );
-// routerEditoras.put('/:id', );
-// routerEditoras.delete('/:id', );
+routerEditoras.post('/', EditoraController.createEditora);
+routerEditoras.put('/:id', EditoraController.updateEditora);
+routerEditoras.delete('/:id', EditoraController.deleteEditora);
 
 export default routerEditoras;

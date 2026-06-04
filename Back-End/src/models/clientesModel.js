@@ -1,19 +1,19 @@
 import pool from "../database/database.js";
-
+// =============================================================================
 class ClienteModel {
   async showClientes() {
     const [rows] = await pool.execute("SELECT * FROM clientes;");
     return rows;
   }
-
+// =============================================================================
   async getClienteById(id) {
     const [rows] = await pool.execute(
-      "SELECT * FROM clientes WHERE id_cliente = ?",
+      "SELECT * FROM clientes WHERE id_cliente = ?;",
       [id]
     );
     return rows[0];
   }
-
+// =============================================================================
   async getClienteByEmail(email) {
     const [rows] = await pool.execute(
       "SELECT * FROM clientes WHERE email = ?;",
@@ -21,16 +21,16 @@ class ClienteModel {
     );
     return rows;
   }
-
+// =============================================================================
   async createCliente(data) {
     const { nome, email, telefone, cidade, estado } = data;
     const [row] = await pool.execute(
-      "INSERT INTO clientes (nome, email, telefone, cidade, estado) VALUES (?, ?, ?, ?, ?)",
+      "INSERT INTO clientes (nome, email, telefone, cidade, estado) VALUES (?, ?, ?, ?, ?);",
       [nome, email, telefone, cidade, estado]
     );
     return row;
   }
-
+// =============================================================================
   async updateCliente(id, data) {
     const { nome, email, telefone, cidade, estado } = data;
     const [row] = await pool.execute(
@@ -39,7 +39,7 @@ class ClienteModel {
     );
     return row;
   }
-
+// =============================================================================
   async deleteCliente(id) {
     const [row] = await pool.execute(
       "DELETE FROM clientes WHERE id_cliente = ?",
@@ -48,5 +48,5 @@ class ClienteModel {
     return row;
   }
 }
-
+// =============================================================================
 export default new ClienteModel();

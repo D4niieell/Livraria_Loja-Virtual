@@ -1,6 +1,7 @@
 import pool from "../database/database.js";
-
+// =============================================================================
 class LivroModel {
+// =============================================================================
     async showLivros() {
         const [rows] = await pool.execute(
             `
@@ -8,8 +9,7 @@ class LivroModel {
                 livros.titulo,
                 livros.autor,
                 livros.preco,
-                livros.estoque,
-                categorias.nome AS categoria,
+                categorias.categoria AS categoria,
                 editoras.nome AS editora
             FROM livros
             JOIN categorias ON livros.id_categoria = categorias.id_categoria
@@ -18,7 +18,7 @@ class LivroModel {
         );
         return rows;
     }
-
+// =============================================================================
     async getLivroById(id) {
         const [rows] = await pool.execute(
             `
@@ -26,8 +26,7 @@ class LivroModel {
                 livros.titulo,
                 livros.autor,
                 livros.preco,
-                livros.estoque,
-                categorias.nome AS categoria,
+                categorias.categoria AS categoria,
                 editoras.nome AS editora
             FROM livros
             JOIN categorias ON livros.id_categoria = categorias.id_categoria
@@ -36,9 +35,9 @@ class LivroModel {
             `, 
         [id]        
         );
-        return rows[0];
+        return rows;
     }
-
+// =============================================================================
     async createLivro(data) {
         const { titulo, autor, preco, estoque, id_categoria, id_editora } = data;
         const [row] = await pool.execute(
@@ -47,7 +46,7 @@ class LivroModel {
         );
         return row;
     }
-
+// =============================================================================
     async updateLivro(id, data) {
         const { titulo, autor, preco, estoque, id_categoria, id_editora } = data;
         const [row] = await pool.execute(
@@ -57,7 +56,7 @@ class LivroModel {
         );
         return row;
     }
-
+// =============================================================================
     async deleteLivro(id) {
         const [row] = await pool.execute(
             'DELETE FROM livros WHERE id_livro = ?',
@@ -66,5 +65,5 @@ class LivroModel {
         return row;
     }
 }
-
+// =============================================================================
 export default new LivroModel();

@@ -304,11 +304,16 @@ Cada controller deve seguir esta estrutura:
     Criar uma classe com o nome do arquivo em PascalCase (ex: ClientesController)
 
     Implementar os métodos da classe, todos com async e recebendo (req, res):
-        showNomeDaEntidade(req, res) — chama await Model.showNomeDaEntidade() e retorna com res.json()
-        getNomeDaEntidadeById(req, res) — obtém o id via req.params.id, chama await Model.getNomeDaEntidadeById(id). Se o resultado estiver vazio (result.length === 0), retorne res.status(404).json()
-        createNomeDaEntidade(req, res) — obtém os dados via req.body, chama await Model.createNomeDaEntidade(req.body) e retorne res.status(201).json()
-        updateNomeDaEntidade(req, res) — obtém id via req.params.id e dados via req.body, chama await Model.updateNomeDaEntidade(id, req.body) e retorna uma mensagem de sucesso
-        deleteNomeDaEntidade(req, res) — obtém id via req.params.id, chama await Model.deleteNomeDaEntidade(id) e retorna uma mensagem de sucesso
+
+        | showNomeDaEntidade(req, res) — chama await Model.showNomeDaEntidade() e retorna com res.json()
+
+        | getNomeDaEntidadeById(req, res) — obtém o id via req.params.id, chama await Model.getNomeDaEntidadeById(id). Se o resultado estiver vazio (result.length === 0), retorne res.status(404).json()
+
+        | createNomeDaEntidade(req, res) — obtém os dados via req.body, chama await Model.createNomeDaEntidade(req.body) e retorne res.status(201).json()
+
+        | updateNomeDaEntidade(req, res) — obtém id via req.params.id e dados via req.body, chama await Model.updateNomeDaEntidade(id, req.body) e retorna uma mensagem de sucesso
+
+        | deleteNomeDaEntidade(req, res) — obtém id via req.params.id, chama await Model.deleteNomeDaEntidade(id) e retorna uma mensagem de sucesso
 
     Envolver cada método em try/catch — no bloco catch, retorne res.status(500).json({ error: error.message }) para tratar erros inesperados
 

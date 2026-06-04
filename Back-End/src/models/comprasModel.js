@@ -1,11 +1,11 @@
 import pool from '../database/database.js';
-
+// =============================================================================
 class ComprasModel {
     async showCompras() {
         const [rows] = await pool.execute(
             `
             SELECT 
-                compras.quantidade,
+                compras.qtde,
                 compras.data_compra,
                 clientes.nome AS cliente,
                 livros.titulo AS livro,
@@ -17,12 +17,12 @@ class ComprasModel {
         );
         return rows;
     }
-
+// =============================================================================
     async getComprasById(id) {
         const [rows] = await pool.execute(
             `
             SELECT 
-                compras.quantidade,
+                compras.qtde,
                 compras.data_compra,
                 clientes.nome AS cliente,
                 livros.titulo AS livro,
@@ -33,28 +33,28 @@ class ComprasModel {
             WHERE compras.id_compra = ?
             `, [id]
         );
-        return rows[0];
+        return rows;
     }
-    
+// =============================================================================
     async createCompras(data) {
-        const { id_cliente, id_livro, quantidade, data_compra } = data;
+        const { qtde, valor, desconto, id_livro, id_cliente } = data;
         const [row] = await pool.execute(
-            'INSERT INTO compras (id_cliente, id_livro, quantidade, data_compra) VALUES (?, ?, ?, ?)',
-            [id_cliente, id_livro, quantidade, data_compra]
+            'INSERT INTO compras (qtde, valor, desconto, id_livro, id_cliente) VALUES (?, ?, ?, ?, ?)',
+            [qtde, valor, desconto, id_livro, id_cliente]
         );
         return row;
     }
-
+// =============================================================================
     async updateCompras(id, data) {
-        const { id_cliente, id_livro, quantidade, data_compra } = data;
+        const { qtde, valor, desconto, id_livro, id_cliente } = data;
         const [row] = await pool.execute(
-            'UPDATE compras SET id_cliente = ?, id_livro = ?, quantidade = ?, data_compra = ? WHERE id_compra = ?',
-            [id_cliente, id_livro, quantidade, data_compra, id]
+            'UPDATE compras SET qtde = ?, valor = ?, desconto = ?, id_livro = ?, id_cliente = ? WHERE id_compra = ?',
+            [qtde, valor, desconto, id_livro, id_cliente, id]
         );
         return row;
     }
-
-    async deleteCompra(id) {
+// =============================================================================
+    async deleteCompras(id) {
         const [row] = await pool.execute(
             'DELETE FROM compras WHERE id_compra = ?',
             [id]
@@ -62,5 +62,5 @@ class ComprasModel {
         return row;
     }
 }
-
+// =============================================================================
 export default new ComprasModel();

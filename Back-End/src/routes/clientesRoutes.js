@@ -4,6 +4,7 @@ import clientesController from "../controllers/clientesController.js";
 const routeCliente = express.Router();
 
 routeCliente.get("/", clientesController.showClientes);
+routeCliente.get("/:id", clientesController.getClienteById);
 routeCliente.get("/:email", clientesController.getClienteByEmail);
 routeCliente.post("/", clientesController.createCliente);
 routeCliente.put("/:id", clientesController.updateCliente);

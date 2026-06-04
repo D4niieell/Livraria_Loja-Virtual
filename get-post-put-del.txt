@@ -1,0 +1,118 @@
+Métodos HTTP no Node.js
+
+Os quatro métodos principais do HTTP têm propósitos bem distintos:
+
+---
+
+GET — Buscar dados
+Usado para **recuperar** informações. Não modifica nada no servidor.
+
+```js
+
+app.get('/usuarios', (req, res) => {
+  // Parâmetros vêm na URL: /usuarios?id=1
+  const { id } = req.query;
+  res.json({ usuario: 'João', id });
+});
+
+```
+- Parâmetros vão na **URL** (`query string` ou `params`)
+- Pode ser cacheado e favoritado
+- Não tem body na requisição
+
+---
+
+POST — Criar dados
+Usado para **criar** um novo recurso no servidor.
+
+```js
+
+app.post('/usuarios', (req, res) => {
+  // Dados vêm no body da requisição
+  const { nome, email } = req.body;
+  // salvar no banco...
+  res.status(201).json({ mensagem: 'Usuário criado!', nome });
+});
+
+```
+- Dados vão no **body** (não na URL)
+- Não é idempotente — chamadas repetidas criam múltiplos registros
+- Retorna geralmente `201 Created`
+
+---
+
+PUT — Atualizar dados (substituição completa)
+Usado para **substituir** um recurso inteiro.
+
+```js
+
+app.put('/usuarios/:id', (req, res) => {
+  const { id } = req.params;
+  const { nome, email } = req.body; // todos os campos obrigatórios
+  // atualiza tudo...
+  res.json({ mensagem: `Usuário ${id} atualizado!` });
+});
+
+```
+- Substitui o recurso **por completo**
+- É idempotente — chamar várias vezes tem o mesmo efeito
+- Se omitir um campo, ele pode ser sobrescrito como vazio
+
+> **PATCH** é similar ao PUT, mas para **atualizações parciais** — só envia o que vai mudar.
+
+---
+
+DELETE — Remover dados
+Usado para **excluir** um recurso.
+
+```js
+
+app.delete('/usuarios/:id', (req, res) => {
+  const { id } = req.params;
+  // remove do banco...
+  res.json({ mensagem: `Usuário ${id} removido!` });
+});
+```
+- O `id` geralmente vem nos **params** da URL
+- É idempotente — deletar algo já deletado retorna o mesmo resultado
+- Retorna `200 OK` ou `204 No Content`
+
+---
+
+Resumo rápido
+
+| Método | Ação | Body? | Idempotente? | Status comum |
+
+|--------|------|-------|--------------|--------------|
+
+| GET | Ler | ❌ | ✅ | 200 |
+
+| POST | Criar | ✅ | ❌ | 201 |
+
+| PUT | Substituir | ✅ | ✅ | 200 |
+
+| DELETE | Remover | ❌ | ✅ | 200 / 204 |
+
+**Idempotente** significa que repetir a mesma requisição N vezes produz o mesmo resultado que fazer uma vez.
+
+---
+
+POST - C - create - criar
+
+GET - R - read - ler 
+
+PUT - U - update - atualizar
+
+DELETE - D - delete - deletar
+
+---
+
+Método HTTP | Operação CRUD | Ação Prática
+
+GET | Read: Leitura | Recupera dados do servidor.
+
+POST | Create: Criação | Cria um novo recurso no servidor.
+
+PUT | Update: Atualização | Substitui ou cria um recurso por completo.
+
+DELETE | Delete: Exclusão | Remove um recurso específico.
