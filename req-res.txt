@@ -1,0 +1,67 @@
+Em JavaScript, `req` (request) e `res` (response) são os objetos fundamentais do ciclo HTTP, usados principalmente com Node.js e Express.
+
+## `req` — Request (Requisição)
+
+Representa o que o **cliente enviou** para o servidor.
+
+```js
+app.get('/usuario/:id', (req, res) => {
+  req.params.id        // Parâmetros da rota: /usuario/42 → { id: '42' }
+  req.query.nome       // Query string: /usuario?nome=Ana → 'Ana'
+  req.body.email       // Corpo da requisição (POST/PUT com JSON)
+  req.headers['authorization'] // Cabeçalhos HTTP
+  req.method           // 'GET', 'POST', 'PUT', 'DELETE'
+  req.url              // '/usuario/42'
+  req.ip               // IP do cliente
+});
+```
+
+## `res` — Response (Resposta)
+
+Representa o que o **servidor envia** de volta ao cliente.
+
+```js
+app.get('/exemplo', (req, res) => {
+  res.status(200).json({ ok: true })   // JSON com status 200
+  res.send('Olá, mundo!')              // Texto simples
+  res.sendFile('/caminho/index.html')  // Arquivo estático
+  res.redirect('/outra-rota')          // Redireciona
+  res.setHeader('X-Custom', 'valor')   // Define cabeçalho
+  res.cookie('token', 'abc123')        // Define cookie
+  res.end()                            // Encerra sem enviar nada
+});
+```
+
+## Fluxo completo — exemplo prático
+
+```js
+const express = require('express');
+const app = express();
+app.use(express.json());
+
+app.post('/login', (req, res) => {
+  const { email, senha } = req.body; // lê o corpo da requisição
+
+  if (email === 'admin@email.com' && senha === '1234') {
+    res.status(200).json({ token: 'abc123' }); // resposta de sucesso
+  } else {
+    res.status(401).json({ erro: 'Credenciais inválidas' }); // erro
+  }
+});
+
+app.listen(3000);
+```
+
+## Resumo rápido
+
+| | `req` | `res` |
+
+|---|---|---|
+
+| **Direção** | Cliente → Servidor | Servidor → Cliente |
+
+| **O que contém** | Dados da requisição | Métodos para responder |
+
+| **Exemplos** | `.params`, `.body`, `.query` | `.json()`, `.send()`, `.status()` |
+
+A regra de ouro: **`req` você lê, `res` você escreve.**

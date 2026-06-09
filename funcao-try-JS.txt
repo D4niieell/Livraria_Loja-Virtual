@@ -1,0 +1,102 @@
+## Função `try` no JavaScript
+
+O `try` faz parte da estrutura de **tratamento de erros** `try...catch...finally`. Ela permite executar código que pode lançar exceções e tratá-las sem quebrar a aplicação.
+
+### Sintaxe completa
+
+```javascript
+try {
+  // código que pode gerar erro
+} catch (erro) {
+  // executado se ocorrer um erro no try
+} finally {
+  // sempre executado, com ou sem erro
+}
+```
+
+---
+
+### `try...catch`
+
+```javascript
+try {
+  const resultado = JSON.parse("texto inválido");
+} catch (erro) {
+  console.log("Erro capturado:", erro.message);
+  // "Unexpected token e in JSON at position 0"
+}
+```
+
+O bloco `catch` recebe o objeto de erro, que contém:
+
+- `erro.message` — descrição do erro
+- `erro.name` — tipo do erro (`TypeError`, `RangeError`, etc.)
+- `erro.stack` — rastreamento da pilha
+
+---
+
+### `try...catch...finally`
+
+```javascript
+function buscarDados() {
+  try {
+    // tenta executar
+    throw new Error("Falha na requisição");
+  } catch (erro) {
+    console.log("Erro:", erro.message);
+  } finally {
+    console.log("Isso sempre executa"); // limpeza, fechar conexão, etc.
+  }
+}
+```
+
+---
+
+### Lançando erros com `throw`
+
+```javascript
+function dividir(a, b) {
+  try {
+    if (b === 0) throw new Error("Divisão por zero!");
+    return a / b;
+  } catch (erro) {
+    console.error(erro.message);
+    return null;
+  }
+}
+
+dividir(10, 0); // "Divisão por zero!"
+```
+
+---
+
+### Com código assíncrono (`async/await`)
+
+```javascript
+async function carregarUsuario(id) {
+  try {
+    const resposta = await fetch(`/api/usuarios/${id}`);
+    const dados = await resposta.json();
+    return dados;
+  } catch (erro) {
+    console.error("Falha ao buscar usuário:", erro.message);
+  }
+}
+```
+
+---
+
+### Resumo
+
+| Bloco | Quando executa |
+
+|---|---|
+
+| `try` | Sempre — é o código principal |
+
+| `catch` | Só se houver erro no `try` |
+
+| `finally` | Sempre, independente do resultado |
+
+
+O `finally` é ideal para liberar recursos (fechar arquivos, encerrar conexões) garantindo que isso ocorra mesmo em caso de erro.

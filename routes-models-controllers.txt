@@ -1,0 +1,128 @@
+Routes, Controllers e Models no Node.js
+
+Esse é o padrão **MVC (Model-View-Controller)**, uma arquitetura que separa responsabilidades da aplicação em três camadas:
+
+---
+
+### 🛣️ Routes (Rotas)
+**O quê:** Define os *endpoints* da API — os "endereços" que a aplicação expõe.
+
+**Responsabilidade:** Receber a requisição HTTP e direcionar para o Controller correto.
+
+```js
+// routes/userRoutes.js
+const express = require('express');
+const router = express.Router();
+const UserController = require('../controllers/UserController');
+
+router.get('/users',        UserController.index);   // listar todos
+router.get('/users/:id',    UserController.show);    // buscar um
+router.post('/users',       UserController.create);  // criar
+router.put('/users/:id',    UserController.update);  // atualizar
+router.delete('/users/:id', UserController.destroy); // deletar
+
+module.exports = router;
+```
+
+> Não tem lógica de negócio — só mapeia "qual URL chama qual função".
+
+---
+
+### 🎮 Controllers
+**O quê:** Orquestra o fluxo da requisição.
+
+**Responsabilidade:** Receber os dados da requisição, chamar o Model, e devolver a resposta.
+
+```js
+// controllers/UserController.js
+const User = require('../models/User');
+
+const UserController = {
+  async index(req, res) {
+    const users = await User.findAll();
+    return res.json(users);
+  },
+
+  async show(req, res) {
+    const user = await User.findById(req.params.id);
+    if (!user) return res.status(404).json({ error: 'Not found' });
+    return res.json(user);
+  },
+
+  async create(req, res) {
+    const user = await User.create(req.body);
+    return res.status(201).json(user);
+  }
+};
+
+module.exports = UserController;
+```
+
+> É o "meio de campo" — não acessa banco diretamente, não define rotas.
+
+---
+
+### 🗄️ Models
+**O quê:** Representa os dados e regras de negócio.
+
+**Responsabilidade:** Interagir com o banco de dados e validar dados.
+
+```js
+// models/User.js  (exemplo com Sequelize)
+const { DataTypes } = require('sequelize');
+const sequelize = require('../database');
+
+const User = sequelize.define('User', {
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  email: {
+    type: DataTypes.STRING,
+    unique: true,
+    validate: { isEmail: true }
+  },
+  password: {
+    type: DataTypes.STRING,
+    allowNull: false
+  }
+});
+
+module.exports = User;
+```
+
+> É a única camada que "fala" com o banco de dados.
+
+---
+
+### 🔄 Fluxo completo
+
+```
+Request HTTP
+    ↓
+  ROUTE         → "GET /users/42"
+    ↓
+CONTROLLER      → pega req.params.id, chama User.findById(42)
+    ↓
+  MODEL         → executa query no banco, retorna dados
+    ↓
+CONTROLLER      → recebe os dados, monta res.json(...)
+    ↓
+Response HTTP
+```
+
+---
+
+### Resumo rápido
+
+| Camada | Pergunta que responde | Mexe com |
+
+| Route | Qual URL faz o quê? | HTTP verbs + paths |
+
+| Controller | Como processar isso? | req, res, lógica de fluxo |
+
+| Model | Como os dados são estruturados? | Banco de dados, validações |
+
+Essa separação facilita manutenção, testes e reaproveitamento de código.
+
+---

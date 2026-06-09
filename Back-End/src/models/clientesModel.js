@@ -14,6 +14,14 @@ class ClienteModel {
     return rows[0];
   }
 // =============================================================================
+  async selectClienteByEmail(email,id = 0) {
+    const [rows] = await pool.execute(
+      "SELECT * FROM clientes WHERE email = ? AND id_cliente = ?;",
+      [email],
+    );
+    return rows;
+  }
+// =============================================================================
   async getClienteByEmail(email) {
     const [rows] = await pool.execute(
       "SELECT * FROM clientes WHERE email = ?;",

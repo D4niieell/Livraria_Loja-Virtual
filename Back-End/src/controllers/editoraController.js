@@ -59,7 +59,6 @@ class EditoraController {
       res.status(500).json({ error: error.message });
     }
   }
-// =============================================================================
 }
 // =============================================================================
 export default new EditoraController();
