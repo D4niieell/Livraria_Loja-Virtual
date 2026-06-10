@@ -1,0 +1,146 @@
+## Funções em JavaScript
+
+### Declaração de Função (Function Declaration)
+```js
+function somar(a, b) {
+  return a + b;
+}
+```
+Sofre **hoisting** — pode ser chamada antes de ser declarada.
+
+---
+
+### Expressão de Função (Function Expression)
+```js
+const somar = function(a, b) {
+  return a + b;
+};
+```
+Não sofre hoisting da mesma forma.
+
+---
+
+### Arrow Function
+```js
+const somar = (a, b) => a + b;
+
+// Com bloco de código:
+const somar = (a, b) => {
+  return a + b;
+};
+```
+Não tem próprio `this`, `arguments` ou `prototype`.
+
+---
+
+### Função Anônima
+```js
+setTimeout(function() {
+  console.log("executou");
+}, 1000);
+```
+
+---
+
+### Função Imediata (IIFE)
+```js
+(function() {
+  console.log("executa imediatamente");
+})();
+```
+
+---
+
+### Funções Assíncronas
+```js
+// Callback
+function buscar(callback) { callback(dados); }
+
+// Promise
+function buscar() {
+  return new Promise((resolve, reject) => { ... });
+}
+
+// Async/Await
+async function buscar() {
+  const dados = await fetch(url);
+  return dados.json();
+}
+```
+
+---
+
+### Generator Function
+```js
+function* gerador() {
+  yield 1;
+  yield 2;
+  yield 3;
+}
+```
+
+---
+
+## Tags em JavaScript (Template Literals / Tagged Templates)
+
+### Template Literal básico
+```js
+const nome = "Maria";
+const msg = `Olá, ${nome}!`; // "Olá, Maria!"
+```
+
+### Tagged Template (função de tag)
+Uma **tag** é uma função que intercepta um template literal:
+
+```js
+function tag(strings, ...valores) {
+  console.log(strings); // array com as partes literais
+  console.log(valores); // array com os valores interpolados
+  return strings[0] + valores[0].toUpperCase();
+}
+
+const nome = "maria";
+const resultado = tag`Olá, ${nome}!`;
+// strings → ["Olá, ", "!"]
+// valores → ["maria"]
+// resultado → "Olá, MARIA"
+```
+
+### Uso prático de tags
+```js
+// Sanitização de HTML
+function html(strings, ...vals) {
+  return strings.reduce((acc, str, i) => {
+    const val = vals[i - 1]?.replace(/</g, "&lt;") ?? "";
+    return acc + val + str;
+  });
+}
+
+// Internacionalização (i18n)
+const texto = i18n`Bem-vindo, ${nome}!`;
+
+// CSS-in-JS (bibliotecas como styled-components)
+const Button = styled.button`
+  background: ${props => props.primary ? "blue" : "white"};
+`;
+```
+
+---
+
+## Resumo rápido
+
+| Tipo | Hoisting | `this` próprio | Uso principal |
+---
+|---|---|---|---|
+---
+| `function` | ✅ | ✅ | Funções gerais |
+---
+| `function expr.` | ❌ | ✅ | Atribuição a variável |
+---
+| Arrow `=>` | ❌ | ❌ | Callbacks, funções curtas |
+---
+| `async function` | ✅ | ✅ | Código assíncrono |
+---
+| `function*` | ✅ | ✅ | Iteradores/geradores |
+---
+| Tagged template | — | — | Processamento de strings |
