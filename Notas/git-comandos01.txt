@@ -21,7 +21,7 @@ Depois do `git add .`, o fluxo normal é:
 ```bash
 git commit -m "sua mensagem"
 git push
-```
+``` 
 
 Ou pela interface: escreva a mensagem no campo de texto do Source Control e clique em **✓ Commit**.
 
