@@ -8,6 +8,7 @@ import routerLivros from "./src/routes/livrosRoutes.js";
 import routerCompras from "./src/routes/comprasRouter.js";
 import routerCategoria from "./src/routes/categoriaRoutes.js";
 import routerEditora from "./src/routes/editoraRoutes.js";
+import userRouter from "./src/routes/userRoutes.js";
 
 const app = express();
 
@@ -21,9 +22,8 @@ app.use("/livros", routerLivros);
 app.use("/compras", routerCompras);
 app.use("/categorias", routerCategoria);
 app.use("/editoras", routerEditora);
+app.use("/users", userRouter);
 
 app.listen(PORT, () => {
-    console.log(`Servidor rodando na ${PORT}`);
+  console.log(`Servidor rodando em ${PORT}`);
 });
-
-

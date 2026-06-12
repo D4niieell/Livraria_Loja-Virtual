@@ -1,44 +1,44 @@
-import pool from '../database/database.js';
+import pool from "../database/database.js";
 // =============================================================================
 class CategoriaModel {
-    async showCategorias() {
-        const [rows] = await pool.execute('SELECT * FROM categorias');
-        return rows;
-    }
-// =============================================================================
-async getCategoriaById(id) {
+  async showCategorias() {
+    const [rows] = await pool.execute("SELECT * FROM categorias");
+    return rows;
+  }
+  // =============================================================================
+  async getCategoriaById(id) {
     const [rows] = await pool.execute(
-        'SELECT * FROM categorias WHERE id_categoria = ?',
-            [id]
-        )
-        return rows[0];
-    }
-// =============================================================================
-async createCategoria(data) {
+      "SELECT * FROM categorias WHERE id_categoria = ?",
+      [id]
+    );
+    return rows[0];
+  }
+  // =============================================================================
+  async createCategoria(data) {
     const { nome } = data;
     const [row] = await pool.execute(
-        'INSERT INTO categorias (nome) VALUES (?)',
-            [nome]
-        );
-        return row;
-    }
-// =============================================================================
-async updateCategoria(id, data) {
+      "INSERT INTO categorias (nome) VALUES (?)",
+      [nome]
+    );
+    return row;
+  }
+  // =============================================================================
+  async updateCategoria(id, data) {
     const { categoria } = data;
     const [row] = await pool.execute(
-            'UPDATE categorias SET categoria = ? WHERE id_categoria = ?',
-            [categoria, id]
-        );
-        return row;
-    }
-// =============================================================================
-async deleteCategoria(id) {
+      "UPDATE categorias SET categoria = ? WHERE id_categoria = ?",
+      [categoria, id]
+    );
+    return row;
+  }
+  // =============================================================================
+  async deleteCategoria(id) {
     const [row] = await pool.execute(
-            'DELETE FROM categorias WHERE id_categoria = ?',
-            [id]
-        );
-        return row;
-    }
+      "DELETE FROM categorias WHERE id_categoria = ?",
+      [id]
+    );
+    return row;
+  }
 }
 // =============================================================================
 export default new CategoriaModel();

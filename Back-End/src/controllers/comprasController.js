@@ -9,7 +9,7 @@ class ComprasController {
       res.status(500).json({ error: error.message });
     }
   }
-// =============================================================================
+  // =============================================================================
   async getComprasById(req, res) {
     try {
       const { id } = req.params;
@@ -22,33 +22,33 @@ class ComprasController {
       res.status(500).json({ error: error.message });
     }
   }
-// =============================================================================
+  // =============================================================================
   async createCompras(req, res) {
     try {
-        const result = await comprasModel.createCompras(req.body)
-        res.status(201).json(result)
+      const result = await comprasModel.createCompras(req.body);
+      res.status(201).json(result);
     } catch (error) {
-        res.status(500).json({ error: error.message })
+      res.status(500).json({ error: error.message });
     }
   }
-// =============================================================================
+  // =============================================================================
   async updateCompras(req, res) {
     try {
-        const { id } = req.params
-        await comprasModel.updateCompras(id, req.body)
-        res.json({ message: 'Compra atualizada com sucesso.'})
+      const { id } = req.params;
+      await comprasModel.updateCompras(id, req.body);
+      res.json({ message: "Compra atualizada com sucesso." });
     } catch (error) {
-        res.status(500).json({ error: error.message })
+      res.status(500).json({ error: error.message });
     }
   }
-// =============================================================================
+  // =============================================================================
   async deleteCompras(req, res) {
     try {
-        const { id } = req.params
-        await comprasModel.deleteCompras(id)
-        res.json({ message: 'Compra removida com sucesso!' })
-    } catch(error) {
-        res.status(500).json({ error: error.message })
+      const { id } = req.params;
+      await comprasModel.deleteCompras(id);
+      res.json({ message: "Compra removida com sucesso!" });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
     }
   }
 }

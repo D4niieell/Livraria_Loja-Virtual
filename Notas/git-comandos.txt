@@ -1,0 +1,171 @@
+Git no terminal do VSCode
+
+Clique em cada comando para ver detalhes e exemplos
+Fluxo completo
+git init
+→
+git add
+→
+git commit
+→
+git remote add
+→
+git push
+
+1 — Configuração inicial (uma vez só)
+git config
+Configurar nome e e-mail
+Identifica quem fez cada commit no histórico.
+git config --global user.name "Seu Nome"
+
+git config --global user.email "voce@email.com"
+
+O flag --global aplica para todos os projetos da máquina. Sem ele, vale só para o projeto atual. Verifique com git config --list.
+
+2 — Iniciando o repositório
+git init
+Inicializar repositório Git
+Cria a pasta oculta .git que rastreia todas as mudanças do projeto.
+Execute na pasta raiz do projeto:
+
+git init
+
+No VSCode: abra o terminal com Ctrl + ` (acento grave), navegue até a pasta do projeto se necessário com cd nome-da-pasta e execute o comando. Você só precisa fazer isso uma vez por projeto.
+
+git clone
+Clonar repositório existente
+Baixa um repositório já existente do GitHub para sua máquina.
+git clone https://github.com/usuario/repositorio.git
+
+Isso já cria a pasta, baixa todos os arquivos e configura o remote origin automaticamente. Use isso em vez de git init quando o projeto já existe no GitHub.
+
+3 — Preparando arquivos para commit
+git status
+Ver estado dos arquivos
+Mostra quais arquivos foram modificados, quais estão prontos para commit e quais não são rastreados.
+git status
+
+Cores no terminal: vermelho = arquivo modificado/novo mas não adicionado, verde = arquivo adicionado e pronto para commit. Use sempre antes de git add para confirmar o que está mudando.
+
+git add
+Adicionar arquivos ao stage
+Seleciona quais mudanças entrarão no próximo commit (área de stage).
+
+4 — Salvando as mudanças
+git commit
+Criar um commit
+Registra um ponto na história do projeto com todos os arquivos do stage.
+git commit -m "mensagem descritiva"
+
+O flag -m permite escrever a mensagem diretamente na linha. Sem ele, o Git abre o editor de texto padrão.
+
+Atalho para adicionar e commitar arquivos já rastreados de uma vez:
+git commit -am "mensagem"
+
+Escreva mensagens claras como: "Adiciona página de login", "Corrige bug no cálculo de frete".
+
+git log
+Ver histórico de commits
+Exibe todos os commits feitos no projeto, com autor, data e mensagem.
+
+5 — Conectando ao GitHub
+git remote add
+Conectar ao repositório remoto
+Liga seu repositório local ao repositório criado no GitHub.
+git remote add origin https://github.com/usuario/repositorio.git
+
+origin é o apelido padrão para o repositório remoto. A URL você pega na página do repositório no GitHub clicando em "Code".
+
+Para verificar se ficou certo:
+git remote -v
+
+Para trocar a URL:
+git remote set-url origin nova-url
+
+6 — Enviando e sincronizando
+git push
+Enviar commits para o GitHub frequente
+Sobe os commits locais para o repositório remoto no GitHub.
+Primeira vez (define a branch padrão):
+git push -u origin main
+
+Das próximas vezes:
+git push
+
+O flag -u (ou --set-upstream) cria o vínculo entre a branch local e a remota. Depois disso, basta git push sem parâmetros. Se sua branch principal for master em vez de main, substitua no comando.
+
+git pull
+Baixar atualizações do GitHub
+Busca e integra as mudanças do repositório remoto para o local.
+
+7 — Branches (ramificações)
+git branch
+Gerenciar branches
+Cria linhas de desenvolvimento paralelas para trabalhar em funcionalidades sem afetar o código principal.
+Listar todas as branches:
+git branch
+
+Criar nova branch:
+git branch nome-da-feature
+
+Criar e já mudar para ela:
+git checkout -b nome-da-feature
+
+Versão moderna (Git 2.23+):
+git switch -c nome-da-feature
+
+git merge
+Unir branches
+Integra as mudanças de uma branch em outra.
+
+Atalhos úteis no VSCode
+.gitignore
+Ignorar arquivos
+Arquivo que lista o que o Git deve ignorar — senhas, dependências, arquivos temporários.
+Crie um arquivo chamado .gitignore na raiz do projeto com o conteúdo:
+
+node_modules/
+.env
+.DS_Store
+dist/
+
+O VSCode destaca em cinza os arquivos ignorados. Sites como gitignore.io geram modelos prontos para cada linguagem.
+
+git diff
+Ver o que mudou
+Mostra linha a linha o que foi alterado nos arquivos ainda não adicionados ao stage.
+git diff — mudanças fora do stage
+
+git diff --staged — mudanças já no stage (o que vai entrar no commit)
+
+No VSCode, você pode ver o diff visualmente clicando no arquivo modificado na aba "Source Control" (ícone de ramificação na barra lateral).
+
+Dica: Abra o terminal integrado no VSCode com Ctrl + ` (acento grave) ou pelo menu Terminal → New Terminal. A extensão GitLens adiciona visualizações avançadas do histórico Git diretamente no editor.  
+
+Clique em cada comando para expandir os detalhes e exemplos. Abaixo está o resumo do fluxo completo para a primeira vez que você sobe um projeto:
+
+**Para um projeto novo (do zero):**
+
+```bash
+git init
+git add .
+git commit -m "primeiro commit"
+git remote add origin https://github.com/usuario/repositorio.git
+git push -u origin main
+```
+
+**Para atualizações posteriores:**
+
+```bash
+git add .
+git commit -m "descrição do que mudou"
+git push
+```
+
+Alguns pontos importantes que valem destacar:
+
+O terminal no VSCode abre com **Ctrl + `** (acento grave). Ele já inicia na pasta do projeto que você tem aberto, então normalmente não precisa navegar com `cd`.
+
+Antes de fazer o `git push` pela primeira vez, você precisa criar o repositório vazio no GitHub (sem inicializar com README) e copiar a URL dele para o `git remote add`.
+
+Se der erro de autenticação no push, o GitHub hoje exige um **token de acesso pessoal** no lugar da senha. Você gera em _Settings → Developer settings → Personal access tokens_ no GitHub.

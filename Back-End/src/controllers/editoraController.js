@@ -1,34 +1,34 @@
 import EditoraModel from "../models/editoraModels.js";
 // =============================================================================
 class EditoraController {
-// =============================================================================
+  // =============================================================================
   async showEditoras(req, res) {
     try {
       const editoras = await EditoraModel.showEditora();
-      res.json(editoras);  
+      res.json(editoras);
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
   }
-// =============================================================================
+  // =============================================================================
   async getEditoraById(req, res) {
     try {
       const { id } = req.params;
       const editora = await EditoraModel.getEditoraById(id);
       if (!editora) {
         return res.status(404).json({ message: "Editora não encontrada!" });
-    }
+      }
       res.json(editora);
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
   }
-// =============================================================================
+  // =============================================================================
   async createEditora(req, res) {
     try {
       const dados = req.body;
       const novaEditora = await EditoraModel.createEditora(dados);
-      res.status(201).json(novaEditora);  
+      res.status(201).json(novaEditora);
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -39,9 +39,9 @@ class EditoraController {
       const { id } = req.params;
       const result = await EditoraModel.updateEditora(id, req.body);
       if (!result) {
-        return res.status(404).json({ message: "Editora não encontrada! "});
+        return res.status(404).json({ message: "Editora não encontrada! " });
       }
-      res.json({ message: "Editora atualizada com sucesso!", result});     
+      res.json({ message: "Editora atualizada com sucesso!", result });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -54,7 +54,7 @@ class EditoraController {
       if (!result) {
         return res.status(404).json({ message: "Editora não encontrada!" });
       }
-      res.json({ message: "Editora deletada com sucesso!", result});
+      res.json({ message: "Editora deletada com sucesso!", result });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
