@@ -1,0 +1,30 @@
+Você fez o `git add .` corretamente — isso adiciona todos os arquivos ao staging area. Mas ainda faltam mais dois passos:
+
+Sequência completa para subir no GitHub
+
+1️⃣ Já feito ✅
+```bash
+git add .
+```
+
+2️⃣ Fazer o commit (salvar o estado com uma mensagem)
+```bash
+git commit -m "primeira versão da livraria"
+
+```
+
+3️⃣ Enviar para o GitHub
+```bash
+git push origin main
+```
+> Se der erro no `push`, tente `git push origin master` (depende do nome do branch).
+
+---
+
+Se for a primeira vez subindo esse projeto
+
+Antes do push, você precisa ter criado o repositório no GitHub e conectado ao projeto local:
+```bash
+git remote add origin https://github.com/seu-usuario/nome-do-repositorio.git
+git push -u origin main
+```
