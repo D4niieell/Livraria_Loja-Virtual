@@ -31,7 +31,7 @@ class UserModel {
     } = user;
 
     const query = `INSERT INTO users 
-            (user_name, user_email, user_password, user_phone user_role, user_staus) 
+            (user_name, user_email, user_password, user_phone, role_id, user_status) 
                 VALUES 
                     (?, ?, ?, ?, ?, ?)`;
 
@@ -60,12 +60,12 @@ class UserModel {
     const query = `
     UPDATE users
         SET 
-            user_name
-            user_email
-            user_password
-            user_phone
-            role_id
-            user_status
+            user_name = ?,
+            user_email = ?,
+            user_password = ?,
+            user_phone = ?,
+            role_id = ?,
+            user_status = ?
         WHERE user_id = ?
         `;
     const [result] = await pool.execute(query, [

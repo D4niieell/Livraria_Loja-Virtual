@@ -83,7 +83,7 @@ class userController {
         user_password: hashedPassword,
         user_phone,
         role_id,
-        user_status,
+        user_status
       });
 
       if (newUser.affectedRows > 0) {
@@ -93,7 +93,7 @@ class userController {
       }
     } catch (error) {
       return res.status(500).json({
-        error: "Erro ao criar um novo usuário!",
+        error: `${error}Erro ao criar um novo usuário!`,
       });
     }
   }
@@ -123,7 +123,7 @@ class userController {
 
       const [existsPassword] = await userModels.selectAllUsers(user_id);
 
-      if (user_password) {
+      if (existsPassword) {
         const comperingPassword = await bcrypt.compare(
           user_password,
           existsPassword.user_password
@@ -158,7 +158,7 @@ class userController {
       }
     } catch (error) {
       return res.status(500).json({
-        error: "Erro ao atualizar usuário!",
+        error: `${error}Erro ao atualizar o usuário!`,
       });
     }
   }
