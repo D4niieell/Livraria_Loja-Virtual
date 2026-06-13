@@ -83,7 +83,7 @@ class userController {
         user_password: hashedPassword,
         user_phone,
         role_id,
-        user_status
+        user_status,
       });
 
       if (newUser.affectedRows > 0) {
@@ -130,7 +130,14 @@ class userController {
         );
 
         if (comperingPassword) {
-          const result = userModels.updateUser(user_id, req.body);
+          const result = userModels.updateUser(user_id, {
+            user_name,
+            user_email,
+            user_password: hashedPassword,
+            user_phone,
+            role_id,
+            user_status,
+          });
 
           if (result.affectedRows > 0) {
             return res.status(200).json({
@@ -166,21 +173,20 @@ class userController {
   async deleteUser(req, res) {
     try {
       const { user_id } = req.params;
-      
+
       const result = await userModels.deleteUser(user_id);
 
       if (result.affectedRows > 0) {
         return res.status(201).json({
-          sucess: "Usuário deletado com sucesso!"
-        })
+          sucess: "Usuário deletado com sucesso!",
+        });
       }
     } catch (error) {
       return res.status(500).json({
         error: "Erro ao atualizar usuário!",
-      })
+      });
     }
   }
-
 }
 
 export default new userController();

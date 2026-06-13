@@ -29,6 +29,3 @@ VALUES
 	("Adenilson", "adenilson.@email.com", "@senha4321", "(11)02234-5688", 2),
 	("João Pedro", "jpedro.@email.com", "senha_54321", "(11)03334-6799", 3),
 	("João Paulo", "jpaulo.@email.com", "#senha-654321", "(11)04434-6689", 4);
-
-
-    
