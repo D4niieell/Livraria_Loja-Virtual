@@ -1,13 +1,13 @@
 Routes, Controllers e Models no Node.js
 
-Esse é o padrão **MVC (Model-View-Controller)**, uma arquitetura que separa responsabilidades da aplicação em três camadas:
+Esse é o padrão MVC (Model-View-Controller), uma arquitetura que separa responsabilidades da aplicação em três camadas:
 
 ---
 
-### 🛣️ Routes (Rotas)
-**O quê:** Define os *endpoints* da API — os "endereços" que a aplicação expõe.
+🛣️ Routes (Rotas)
+O quê: Define os endpoints da API — os "endereços" que a aplicação expõe.
 
-**Responsabilidade:** Receber a requisição HTTP e direcionar para o Controller correto.
+Responsabilidade: Receber a requisição HTTP e direcionar para o Controller correto.
 
 ```js
 // routes/userRoutes.js
@@ -28,10 +28,10 @@ module.exports = router;
 
 ---
 
-### 🎮 Controllers
-**O quê:** Orquestra o fluxo da requisição.
+🎮 Controllers
+O quê: Orquestra o fluxo da requisição.
 
-**Responsabilidade:** Receber os dados da requisição, chamar o Model, e devolver a resposta.
+Responsabilidade: Receber os dados da requisição, chamar o Model, e devolver a resposta.
 
 ```js
 // controllers/UserController.js
@@ -62,10 +62,10 @@ module.exports = UserController;
 
 ---
 
-### 🗄️ Models
-**O quê:** Representa os dados e regras de negócio.
+🗄️ Models
+O quê: Representa os dados e regras de negócio.
 
-**Responsabilidade:** Interagir com o banco de dados e validar dados.
+Responsabilidade: Interagir com o banco de dados e validar dados.
 
 ```js
 // models/User.js  (exemplo com Sequelize)
@@ -95,7 +95,7 @@ module.exports = User;
 
 ---
 
-### 🔄 Fluxo completo
+🔄 Fluxo completo
 
 ```
 Request HTTP
@@ -113,7 +113,7 @@ Response HTTP
 
 ---
 
-### Resumo rápido
+Resumo rápido
 
 | Camada | Pergunta que responde | Mexe com |
 

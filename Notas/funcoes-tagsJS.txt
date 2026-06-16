@@ -1,6 +1,6 @@
-## Funções em JavaScript
+Funções em JavaScript
 
-### Declaração de Função (Function Declaration)
+Declaração de Função (Function Declaration)
 ```js
 function somar(a, b) {
   return a + b;
@@ -10,7 +10,7 @@ Sofre **hoisting** — pode ser chamada antes de ser declarada.
 
 ---
 
-### Expressão de Função (Function Expression)
+Expressão de Função (Function Expression)
 ```js
 const somar = function(a, b) {
   return a + b;
@@ -20,7 +20,7 @@ Não sofre hoisting da mesma forma.
 
 ---
 
-### Arrow Function
+Arrow Function
 ```js
 const somar = (a, b) => a + b;
 
@@ -33,7 +33,7 @@ Não tem próprio `this`, `arguments` ou `prototype`.
 
 ---
 
-### Função Anônima
+Função Anônima
 ```js
 setTimeout(function() {
   console.log("executou");
@@ -42,7 +42,7 @@ setTimeout(function() {
 
 ---
 
-### Função Imediata (IIFE)
+Função Imediata (IIFE)
 ```js
 (function() {
   console.log("executa imediatamente");
@@ -51,7 +51,7 @@ setTimeout(function() {
 
 ---
 
-### Funções Assíncronas
+Funções Assíncronas
 ```js
 // Callback
 function buscar(callback) { callback(dados); }
@@ -70,7 +70,7 @@ async function buscar() {
 
 ---
 
-### Generator Function
+Generator Function
 ```js
 function* gerador() {
   yield 1;
@@ -81,15 +81,15 @@ function* gerador() {
 
 ---
 
-## Tags em JavaScript (Template Literals / Tagged Templates)
+Tags em JavaScript (Template Literals / Tagged Templates)
 
-### Template Literal básico
+Template Literal básico
 ```js
 const nome = "Maria";
 const msg = `Olá, ${nome}!`; // "Olá, Maria!"
 ```
 
-### Tagged Template (função de tag)
+Tagged Template (função de tag)
 Uma **tag** é uma função que intercepta um template literal:
 
 ```js
@@ -106,7 +106,7 @@ const resultado = tag`Olá, ${nome}!`;
 // resultado → "Olá, MARIA"
 ```
 
-### Uso prático de tags
+Uso prático de tags
 ```js
 // Sanitização de HTML
 function html(strings, ...vals) {
@@ -127,7 +127,7 @@ const Button = styled.button`
 
 ---
 
-## Resumo rápido
+Resumo rápido
 
 | Tipo | Hoisting | `this` próprio | Uso principal |
 ---

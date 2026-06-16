@@ -1,8 +1,8 @@
-## Função `try` no JavaScript
+Função `try` no JavaScript
 
 O `try` faz parte da estrutura de **tratamento de erros** `try...catch...finally`. Ela permite executar código que pode lançar exceções e tratá-las sem quebrar a aplicação.
 
-### Sintaxe completa
+Sintaxe completa
 
 ```javascript
 try {
@@ -16,7 +16,7 @@ try {
 
 ---
 
-### `try...catch`
+`try...catch`
 
 ```javascript
 try {
@@ -35,7 +35,7 @@ O bloco `catch` recebe o objeto de erro, que contém:
 
 ---
 
-### `try...catch...finally`
+`try...catch...finally`
 
 ```javascript
 function buscarDados() {
@@ -52,7 +52,7 @@ function buscarDados() {
 
 ---
 
-### Lançando erros com `throw`
+Lançando erros com `throw`
 
 ```javascript
 function dividir(a, b) {
@@ -70,7 +70,7 @@ dividir(10, 0); // "Divisão por zero!"
 
 ---
 
-### Com código assíncrono (`async/await`)
+Com código assíncrono (`async/await`)
 
 ```javascript
 async function carregarUsuario(id) {
@@ -86,7 +86,7 @@ async function carregarUsuario(id) {
 
 ---
 
-### Resumo
+Resumo
 
 | Bloco | Quando executa |
 

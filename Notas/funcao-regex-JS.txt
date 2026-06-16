@@ -1,0 +1,121 @@
+Função `RegExp` (Regex) em JavaScript
+
+RegExp (Expressão Regular) é um objeto em JS usado para encontrar padrões em strings.
+
+---
+
+Criando uma Regex
+
+```js
+// Literal (mais comum)
+const regex = /padrão/flags;
+
+// Construtor (útil quando o padrão é dinâmico)
+const regex = new RegExp("padrão", "flags");
+```
+
+---
+
+Flags principais
+
+| Flag | Descrição |
+|------|-----------|
+| `g`  | Global — encontra **todas** as ocorrências |
+| `i`  | Case-insensitive — ignora maiúsculas/minúsculas |
+| `m`  | Multiline — `^` e `$` funcionam por linha |
+| `s`  | Dotall — `.` passa a incluir `\n` |
+
+---
+
+Métodos principais
+
+1 - `test()` — retorna `true` ou `false`**
+```js
+const regex = /\d+/;
+regex.test("abc123"); // true
+regex.test("abc");    // false
+```
+
+2 - `match()` — retorna as correspondências**
+```js
+"hello world".match(/\w+/g); // ["hello", "world"]
+```
+
+3 - `replace()` — substitui o padrão**
+```js
+"foo bar".replace(/foo/, "baz"); // "baz bar"
+"aabbcc".replace(/[ab]/g, "x"); // "xxxcc"
+```
+
+4 - `split()` — divide a string pelo padrão**
+```js
+"um,dois;três".split(/[,;]/); // ["um", "dois", "três"]
+```
+
+5 - `search()` — retorna o índice da primeira ocorrência**
+```js
+"hello123".search(/\d/); // 5
+```
+
+6. - `exec()` — retorna detalhes da correspondência**
+```js
+const regex = /(\d+)/g;
+regex.exec("abc123def456"); // ["123", "123", index: 3, ...]
+```
+
+---
+
+Metacaracteres essenciais
+
+| Símbolo | Significado |
+|---------|-------------|
+| `.`     | Qualquer caractere (exceto `\n`) |
+|---------|-------------|
+| `\d`    | Dígito `[0-9]` |
+|---------|-------------|
+| `\w`    | Palavra `[a-zA-Z0-9_]` |
+|---------|-------------|
+| `\s`    | Espaço em branco |
+|---------|-------------|
+| `^`     | Início da string |
+|---------|-------------|
+| `$`     | Fim da string |
+|---------|-------------|
+| `*`     | 0 ou mais repetições |
+|---------|-------------|
+| `+`     | 1 ou mais repetições |
+|---------|-------------|
+| `?`     | 0 ou 1 repetição (opcional) |
+|---------|-------------|
+| `{n,m}` | Entre n e m repetições |
+|---------|-------------|
+| `()`    | Grupo de captura |
+|---------|-------------|
+| `[]`    | Conjunto de caracteres |
+|---------|-------------|
+| `\|`    | OU lógico |
+
+---
+
+Exemplos práticos
+
+```js
+// Validar e-mail
+/^[\w.-]+@[\w.-]+\.\w{2,}$/.test("user@email.com"); // true
+
+// Extrair números
+"Preço: R$ 29,90".match(/[\d,]+/g); // ["29,90"]
+
+// Remover espaços extras
+"  olá   mundo  ".trim().replace(/\s+/g, " "); // "olá mundo"
+
+// Validar CPF (formato)
+/^\d{3}\.\d{3}\.\d{3}-\d{2}$/.test("123.456.789-09"); // true
+
+// Capturar grupos nomeados
+const { dia, mes, ano } = "2026-06-15".match(
+  /(?<ano>\d{4})-(?<mes>\d{2})-(?<dia>\d{2})/
+).groups;
+```
+
+---

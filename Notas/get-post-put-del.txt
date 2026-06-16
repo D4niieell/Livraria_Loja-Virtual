@@ -93,7 +93,7 @@ Resumo rápido
 
 | DELETE | Remover | ❌ | ✅ | 200 / 204 |
 
-**Idempotente** significa que repetir a mesma requisição N vezes produz o mesmo resultado que fazer uma vez.
+'Idempotente' significa que repetir a mesma requisição N vezes produz o mesmo resultado que fazer uma vez.
 
 ---
 

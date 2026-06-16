@@ -1,16 +1,16 @@
 Para fazer `git add .` no VSCode, você tem algumas opções:
 
-**Pelo terminal integrado (mais direto):**
+Pelo terminal integrado (mais direto):
 
 1. Abra o terminal: `` Ctrl+` ``
 2. Digite `git add .` e pressione Enter
 
-**Pela interface gráfica (Source Control):**
-1. Clique no ícone de **ramificação** na barra lateral (ou `Ctrl+Shift+G`)
-2. Em **"Changes"**, clique no **+** ao lado de "Changes" para adicionar todos os arquivos (equivalente ao `git add .`)
-3. Ou clique no **+** individual em cada arquivo para adicionar um por um
+Pela interface gráfica (Source Control):
+1. Clique no ícone de ramificação na barra lateral (ou `Ctrl + Shift + G`)
+2. Em "Changes", clique no + ao lado de "Changes" para adicionar todos os arquivos (equivalente ao `git add .`)
+3. Ou clique no + individual em cada arquivo para adicionar um por um
 
-**Atalho rápido pela paleta de comandos:**
+Atalho rápido pela paleta de comandos:
 1. `Ctrl+Shift+P`
 2. Digite `Git: Stage All Changes` e pressione Enter
 
@@ -23,6 +23,6 @@ git commit -m "sua mensagem"
 git push
 ``` 
 
-Ou pela interface: escreva a mensagem no campo de texto do Source Control e clique em **✓ Commit**.
+Ou pela interface: escreva a mensagem no campo de texto do Source Control e clique em ✓ Commit.
 
 Quer ajuda com alguma etapa específica?

@@ -1,43 +1,43 @@
-## Explicação do Código SQL
+Explicação do Código SQL
 
 Este código manipula o banco de dados de uma livraria online. Veja o que cada parte faz:
 
 ---
 
-**`use bd_livrariaonline;`**
+`use bd_livrariaonline;`
 Seleciona o banco de dados `bd_livrariaonline` para ser usado nas operações seguintes.
 
 ---
 
-**`DESCRIBE compras;`**
+`DESCRIBE compras;`
 Exibe a estrutura da tabela `compras` — colunas, tipos de dados, se aceitam NULL, chaves, etc.
 
 ---
 
-**`SHOW CREATE TABLE compras;`**
+`SHOW CREATE TABLE compras;`
 Mostra o comando SQL completo que foi usado para criar a tabela `compras`, incluindo todas as constraints e chaves estrangeiras.
 
 ---
 
-**`ALTER TABLE compras DROP FOREIGN KEY compras_ibfk_1;`**
-**`ALTER TABLE compras DROP FOREIGN KEY compras_ibfk_2;`**
+`ALTER TABLE compras DROP FOREIGN KEY compras_ibfk_1;`
+`ALTER TABLE compras DROP FOREIGN KEY compras_ibfk_2;`
 Remove duas chaves estrangeiras da tabela `compras`. Isso desvincula as referências que ela tinha com outras tabelas.
 
 ---
 
-**`ALTER TABLE livros ADD CONSTRAINT livros_ibfk_1 FOREIGN KEY (id_editora) REFERENCES editoras(id_editora) ON DELETE CASCADE ON UPDATE CASCADE;`**
+`ALTER TABLE livros ADD CONSTRAINT livros_ibfk_1 FOREIGN KEY (id_editora) REFERENCES editoras(id_editora) ON DELETE CASCADE ON UPDATE CASCADE;`
 Adiciona uma chave estrangeira na tabela `livros`, ligando a coluna `id_editora` à tabela `editoras`. Os comportamentos em cascata significam:
-- **ON DELETE CASCADE** → se uma editora for deletada, todos os livros dela são deletados automaticamente
-- **ON UPDATE CASCADE** → se o `id_editora` mudar em `editoras`, atualiza automaticamente em `livros`
+- ON DELETE CASCADE → se uma editora for deletada, todos os livros dela são deletados automaticamente
+- ON UPDATE CASCADE → se o `id_editora` mudar em `editoras`, atualiza automaticamente em `livros`
 
 ---
 
-**`ALTER TABLE livros ADD CONSTRAINT livros_ibfk_2 FOREIGN KEY (id_categoria) REFERENCES editoras(id_categoria) ON DELETE CASCADE ON UPDATE CASCADE;`**
+`ALTER TABLE livros ADD CONSTRAINT livros_ibfk_2 FOREIGN KEY (id_categoria) REFERENCES editoras(id_categoria) ON DELETE CASCADE ON UPDATE CASCADE;`
 Tenta adicionar uma segunda chave estrangeira em `livros`, desta vez para `id_categoria` — mas **referenciando a tabela `editoras`**, o que parece ser um **erro**. O correto provavelmente seria referenciar uma tabela `categorias`, não `editoras`.
 
 ---
 
-### ⚠️ Erro identificado
+⚠️ Erro identificado
 
 ```sql
 -- Linha com erro:
