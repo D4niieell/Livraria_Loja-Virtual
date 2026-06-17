@@ -1,0 +1,173 @@
+Função `token` em JavaScript
+
+JavaScript !não possui uma função nativa chamada `token`! Esse nome é usado em diferentes contextos e bibliotecas. Os mais comuns são:
+
+---
+
+1 - Tokenização (Análise Léxica)
+
+No contexto de "compiladores/interpretadores", um "token" é a unidade mínima de código (palavra-chave, operador, identificador). Bibliotecas de parsing criam funções `token()` para extrair esses elementos:
+
+```js
+// Exemplo conceitual de tokenizer
+function token(type, value) {
+  return { type, value };
+}
+
+token("NUMBER", 42);     // { type: "NUMBER", value: 42 }
+token("STRING", "olá"); // { type: "STRING", value: "olá" }
+```
+
+---
+
+2 - Tokens de Autenticação (JWT / OAuth)
+
+Em aplicações web, `token` geralmente se refere a funções que "geram ou validam tokens de acesso":
+
+```js
+// Gerando um token simples
+function token() {
+  return crypto.randomUUID(); // Ex: "a3f2c1d4-..."
+}
+
+// Ou com bibliotecas como jsonwebtoken
+const jwt = require("jsonwebtoken");
+const token = jwt.sign({ userId: 1 }, "secreto", { expiresIn: "1h" });
+```
+
+---
+
+3 - CancellationToken (Cancelamento de operações)
+
+Padrão usado para "cancelar operações assíncronas":
+
+```js
+class CancellationToken {
+  constructor() {
+    this.cancelled = false;
+  }
+  cancel() {
+    this.cancelled = true;
+  }
+  isCancelled() {
+    return this.cancelled;
+  }
+}
+
+const token = new CancellationToken();
+token.cancel(); // Cancela a operação
+```
+
+---
+
+4 - CSS Tokenization (Houdini API)
+
+Na "CSS Typed OM / Houdini", `CSSToken` tokeniza valores CSS:
+
+```js
+for (const token of new CSSTokenizer("1px solid red")) {
+  console.log(token); // Divide o CSS em partes
+}
+```
+
+---
+
+Resumo
+
+| Contexto | Função do `token` |
+
+|---|---|
+
+| Parsing/Compiladores | Representa unidades léxicas do código |
+
+| Autenticação | Gera/valida tokens de acesso (JWT, OAuth) |
+
+| Async/Cancel | Controla o cancelamento de operações |
+
+| CSS Houdini | Tokeniza strings CSS |
+
+---
+
+Em JavaScript, "tokens" pode se referir a diferentes conceitos dependendo do contexto. Vou mostrar os principais:
+Os 7 tipos de tokens em JavaScript
+
+Quando o motor JS (como o V8) lê seu código, a primeira etapa é a **análise léxica**: o código-fonte vira uma sequência de tokens antes de virar uma árvore sintática (AST).
+
+* Keywords (palavras-chave): são reservadas pela especificação — `const`, `let`, `var`, `function`, `return`, `if`, `class`, `async`, etc. Você não pode usá-las como nomes de variáveis.
+
+* Identifiers (identificadores): são qualquer nome que você cria: variáveis, funções, parâmetros, propriedades. Regra: começa com letra, `_` ou `$`; pode conter dígitos depois.
+
+* Literals (literais): são valores escritos diretamente no código — strings (`"texto"`, `'texto'`, `` `template` ``), números (`42`, `3.14`, `0xFF`), booleanos (`true`, `false`), `null`, `undefined` e `BigInt` (`42n`).
+
+* Operators (operadores): são os símbolos de operação: aritméticos (`+`, `-`, `*`, `/`), lógicos (`&&`, `||`, `!`), comparação (`===`, `!==`, `<`, `>`), atribuição (`=`, `+=`) e outros como `?.`, `??`, `...`.
+
+* Punctuators (pontuadores): estruturam o código sem realizar operações — parênteses, chaves, colchetes, vírgulas, ponto-e-vírgula e ponto.
+
+* Template literals: merecem destaque especial: `` `Olá, ${nome}!` `` é tokenizado de forma especial — o motor separa as partes de texto das expressões dentro de `${}`.
+
+* Comments: (comentários) são lidos mas descartados pelo parser — `// linha` e `/* bloco */`.
+
+---
+
+Token em JavaScript
+
+JavaScript não possui uma função nativa chamada `Token`. O termo **"token"** em JS pode se referir a diferentes conceitos dependendo do contexto:
+
+---
+
+1. Tokens na análise léxica (compiladores/parsers)
+Na teoria de linguagens, um **token** é a menor unidade significativa do código. O motor JS divide seu código em tokens antes de executá-lo:
+
+```js
+let x = 42 + 1;
+// Tokens: [let] [x] [=] [42] [+] [1] [;]
+```
+
+Tipos de tokens em JS: palavras-chave (`let`, `if`), identificadores (`x`, `nome`), operadores (`+`, `=`), literais (`42`, `"texto"`), pontuação (`;`, `{`).
+
+---
+
+2. Tokens de autenticação (JWT)
+É o uso mais comum no dia a dia — um **token** é uma string que representa credenciais de acesso:
+
+```js
+// Gerando/verificando um JWT com a biblioteca jsonwebtoken
+const jwt = require('jsonwebtoken');
+
+const token = jwt.sign({ userId: 123 }, 'segredo', { expiresIn: '1h' });
+console.log(token); // "eyJhbGciOiJIUzI1NiIs..."
+
+const dados = jwt.verify(token, 'segredo');
+console.log(dados.userId); // 123
+```
+
+---
+
+3. Tokens de cancelamento (AbortController)
+Usados para cancelar operações assíncronas:
+
+```js
+const controller = new AbortController();
+const token = controller.signal; // ← este é o "token"
+
+fetch('https://api.exemplo.com/dados', { signal: token });
+
+// Cancelar a requisição
+controller.abort();
+```
+
+---
+
+4. Tokenização de texto (IA / NLP)
+Dividir texto em partes menores para processamento:
+
+```js
+function tokenizar(texto) {
+  return texto.toLowerCase().split(/\s+/);
+}
+
+tokenizar("Olá mundo JS");
+// ["olá", "mundo", "js"]
+```
+
+---

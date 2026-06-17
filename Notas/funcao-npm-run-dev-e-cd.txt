@@ -1,0 +1,89 @@
+Parece que sua mensagem ficou incompleta! Você quis dizer algo como:
+
+"Como funciona `npm run dev` e `cd` no terminal?"
+
+Aqui vai uma explicação rápida:
+
+---
+
+`cd` — Mudar de diretório
+
+```bash
+cd nome-da-pasta      - Entra na pasta
+cd ..                 - Volta uma pasta
+cd ~/projetos/meu-app - Vai para um caminho específico
+```
+
+---
+
+`npm run dev` — Iniciar servidor de desenvolvimento
+
+Executa o script `"dev"` definido no `package.json` do projeto. Geralmente inicia um servidor local com hot-reload.
+
+```bash
+Fluxo típico:
+---
+cd meu-projeto         1. Entra na pasta do projeto
+---
+npm install            2. Instala dependências (só na primeira vez)
+---
+npm run dev            3. Inicia o servidor
+```
+
+O terminal vai mostrar algo como:
+```
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: http://192.168.x.x:5173/
+```
+
+Aí é só abrir esse endereço no navegador.
+
+---
+
+`cd` — Mudar de diretório
+
+`cd` significa change directory. É um comando do shell (não do npm) para navegar entre pastas:
+
+```bash
+cd nome-da-pasta      - entra na pasta
+cd ..                 - volta uma pasta acima
+cd ~/projetos/meuapp  - vai para um caminho absoluto
+cd -                  - volta para o diretório anterior
+```
+
+---
+
+`npm run dev` — Rodar o servidor de desenvolvimento
+
+`npm run dev` executa o script chamado `"dev"` definido no `package.json` do projeto:
+
+```json
+{
+  "scripts": {
+    "dev": "vite"        // ou "next dev", "react-scripts start", etc.
+  }
+}
+```
+
+O que acontece por baixo dos panos:
+
+1. O npm lê o `package.json`
+2. Encontra a chave `"dev"` dentro de `"scripts"`
+3. Executa o comando correspondente no terminal
+
+Geralmente isso inicia um **servidor local** (ex: `http://localhost:3000`) com hot reload — ou seja, o browser atualiza automaticamente quando você salva um arquivo.
+
+---
+
+Fluxo típico de uso
+
+```bash
+cd meu-projeto        1. entra na pasta do projeto
+npm install           2. instala as dependências (só na primeira vez)
+npm run dev           3. sobe o servidor de desenvolvimento
+```
+
+---
+
+Resumindo:
+`cd` é navegação de pasta (comando do sistema), e `npm run dev` é um atalho configurável que inicia seu ambiente de desenvolvimento. O nome `dev` é convenção — cada projeto pode ter scripts com nomes diferentes (`start`, `serve`, etc.).

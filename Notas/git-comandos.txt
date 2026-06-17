@@ -144,7 +144,7 @@ Dica: Abra o terminal integrado no VSCode com Ctrl + ` (acento grave) ou pelo me
 
 Clique em cada comando para expandir os detalhes e exemplos. Abaixo está o resumo do fluxo completo para a primeira vez que você sobe um projeto:
 
-**Para um projeto novo (do zero):**
+Para um projeto novo (do zero):
 
 ```bash
 git init
@@ -154,7 +154,7 @@ git remote add origin https://github.com/usuario/repositorio.git
 git push -u origin main
 ```
 
-**Para atualizações posteriores:**
+Para atualizações posteriores:
 
 ```bash
 git add .
@@ -164,8 +164,8 @@ git push
 
 Alguns pontos importantes que valem destacar:
 
-O terminal no VSCode abre com **Ctrl + `** (acento grave). Ele já inicia na pasta do projeto que você tem aberto, então normalmente não precisa navegar com `cd`.
+O terminal no VSCode abre com "Ctrl + `" (acento grave). Ele já inicia na pasta do projeto que você tem aberto, então normalmente não precisa navegar com `cd`.
 
 Antes de fazer o `git push` pela primeira vez, você precisa criar o repositório vazio no GitHub (sem inicializar com README) e copiar a URL dele para o `git remote add`.
 
-Se der erro de autenticação no push, o GitHub hoje exige um **token de acesso pessoal** no lugar da senha. Você gera em _Settings → Developer settings → Personal access tokens_ no GitHub.
+Se der erro de autenticação no push, o GitHub hoje exige um "token de acesso pessoal" no lugar da senha. Você gera em _Settings → Developer settings → Personal access tokens_ no GitHub.
