@@ -13,7 +13,7 @@ const validateUser = (req, res, next) => {
   const newName = user_name.trim();
   const newEmail = user_email.trim();
   const newPhone = user_phone.trim();
-  const newPassword = user_phone.trim();
+  const newPassword = user_password.trim();
 
   const regexEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;

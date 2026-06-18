@@ -1,0 +1,61 @@
+O que é um Token em JavaScript?
+
+O termo token pode ter significados diferentes dependendo do contexto:
+
+---
+
+1. Token de Autenticação (mais comum no contexto do seu código)
+
+É uma string única usada para identificar e autenticar um usuário. Funciona como um "crachá digital".
+
+```js
+// Exemplo de token
+const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.abc123..."
+```
+
+Fluxo básico:
+```
+Usuário faz login → servidor gera token → token é enviado ao cliente
+         → cliente envia token nas próximas requisições → servidor valida
+```
+
+Os tipos mais comuns são:
+- JWT (JSON Web Token) — o mais popular
+- Token de sessão — uma string aleatória salva no banco (como no seu código)
+- OAuth Token — usado para login com Google, GitHub, etc.
+
+---
+
+2. Token na Linguagem (conceito de compiladores)
+
+No contexto de como o JS interpreta o código um token é a menor unidade de código com significado:
+
+```js
+const x = 42 + 1;
+//  ↑    ↑  ↑   ↑  ↑
+// const  x  =  42  +  1  → cada um é um token
+```
+
+| Token | Tipo |
+|---|---|
+| `const` | Palavra-chave |
+| `x` | Identificador |
+| `=` | Operador |
+| `42` | Literal numérico |
+| `+` | Operador |
+
+---
+
+No contexto do seu código
+
+O token é uma string salva no banco de dados para controlar sessões:
+
+```js
+{
+  user_id: 1,
+  token: "abc123xyz...",   // string única gerada no login
+  expires_at: "2026-07-01" // quando ele expira
+}
+```
+
+Ou seja, é um token de autenticação por sessão — simples e direto, sem JWT.

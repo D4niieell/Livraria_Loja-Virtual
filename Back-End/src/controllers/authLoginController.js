@@ -4,6 +4,8 @@ import generateTokens from "../utils/generateTokens.js";
 import tokenModels from "../models/tokenModels.js"; 
 import userModels from "../models/userModels.js";
 
+dotenv.config();
+
 class AuthLoginController {
     async login (req, res) {
         const { user_email, user_password } = req.body;
@@ -21,7 +23,7 @@ class AuthLoginController {
         );
 
         if (!validatePassword) {
-            return res.ststus(400).json({
+            return res.status(400).json({
                 error: "Esta senha é inválida!",
             });
         }
@@ -53,6 +55,22 @@ class AuthLoginController {
         return res.json({
             success: "Login realizado com sucesso!",
             accessToken
+        });
+    }
+
+    async logout (req, res) {
+        const refreshToken = req.cookies?.refreshToken;
+        const deleteToken = await tokenModels.deleteToken(refreshToken);
+
+        res.clearCookie("refreshToken");
+        if (deleteToken.affectedRows > 0) {
+            return res.status(201).json({
+                success: "Logout efetuado com sucesso!"
+            });
+        }
+
+        return res.status(500).json({
+            error: "Erro ao deletar o token!"
         })
     }
 }

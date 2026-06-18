@@ -1,9 +1,10 @@
 import express from "express";
 import clientesController from "../controllers/clientesController.js";
+import { authenticationToken } from "../middlewares/authLoginMiddlewares.js"; 
 
 const routeCliente = express.Router();
 
-routeCliente.get("/", clientesController.showClientes);
+routeCliente.get("/",authenticationToken, clientesController.showClientes);
 routeCliente.get("/:id", clientesController.getClienteById);
 routeCliente.get("/:email", clientesController.getClienteByEmail);
 routeCliente.post("/", clientesController.createCliente);
