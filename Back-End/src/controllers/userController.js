@@ -78,8 +78,8 @@ class userController {
       const hashedPassword = await bcrypt.hash(user_password, 10);
 
       const newUser = await userModels.insertUser({
-        user_name,
-        user_email,
+        user_name: user_name.trim(),
+        user_email: user_email.trim(),
         user_password: hashedPassword,
         user_phone,
         role_id,
@@ -130,10 +130,11 @@ class userController {
         );
 
         if (comperingPassword) {
+          
           const result = userModels.updateUser(user_id, {
-            user_name,
-            user_email,
-            user_password: hashedPassword,
+            user_name: user_name.trim(),
+            user_email: user_email.trim(),
+            user_password: existsPassword.user_password,
             user_phone,
             role_id,
             user_status,

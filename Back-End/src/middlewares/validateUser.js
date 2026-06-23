@@ -17,6 +17,9 @@ const validateUser = (req, res, next) => {
 
   const regexEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  const regexPhone = /^\(\d{2}\)\s\d${4,5}-\d{4}/;
+  const regexRoleId = /^\d$/;
+  const regexUserStatus = /^\d$/;
 
   if (!newName) {
     errors.push("O nome é obrigatório!");
@@ -36,8 +39,8 @@ const validateUser = (req, res, next) => {
 
   if (!newPhone) {
     errors.push("O número do telefone é obrigatório!");
-  } else if (newPhone.length != 15) {
-    errors.push("O telefone deve ter apenas 15 caracteres!");
+  } else if (!regexPhone.test(newPhone)) {
+    errors.push("O telefone precisa ser (00)00000-0000!");
   }
 
   if (!newPassword) {
