@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 class GenerateTokens {
-  generateAccesssToken(user) {
+  generateAccessToken(user) {
     const accessToken = jwt.sign(
       {
         id: user.user_id,

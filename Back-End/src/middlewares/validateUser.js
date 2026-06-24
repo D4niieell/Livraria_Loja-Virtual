@@ -17,7 +17,7 @@ const validateUser = (req, res, next) => {
 
   const regexEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-  const regexPhone = /^\(\d{2}\)\s\d${4,5}-\d{4}/;
+  const regexPhone = /^\(\d{2}\)\s\d{4,5}-\d{4}$/;
   const regexRoleId = /^\d$/;
   const regexUserStatus = /^\d$/;
 
