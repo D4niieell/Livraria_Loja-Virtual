@@ -1,0 +1,71 @@
+Olá! Que excelente iniciativa de explorar o mundo do desenvolvimento web.
+
+Para começarmos, há um conceito muito importante que precisamos ajustar: a linguagem JavaScript não possui "tags".
+
+As tags (como `<h1>`, `<p>`, `<img>` ou `<div>`) pertencem ao HTML, que é uma linguagem de marcação usada para estruturar páginas web. O JavaScript, por outro lado, é uma linguagem de programação, focada em dar lógica e comportamento à página. Em vez de tags, o JavaScript utiliza palavras-reservadas (keywords), variáveis, operadores e funções.
+
+No entanto, dependendo do que você está buscando, existem duas formas de interpretar a sua dúvida. Abaixo, explico tanto as tags HTML usadas para chamar o JavaScript, quanto as principais palavras-reservadas da linguagem em si.
+
+---
+
+1. As Tags (HTML) para rodar o JavaScript
+
+Se você está procurando como inserir o JavaScript dentro de uma página da web, existem exatamente duas tags HTML exclusivas para isso:
+
+* `<script>`: É a tag principal. Ela informa ao navegador que o que está dentro dela (ou no arquivo que ela aponta) é código JavaScript.
+* Exemplo embutido: `<script> alert("Olá, mundo!"); </script>`
+* Exemplo externo: `<script src="meu_codigo.js"></script>`
+
+
+* `<noscript>`: Define um conteúdo HTML alternativo que será exibido apenas se o navegador do usuário não suportar JavaScript ou se ele estiver desativado.
+
+---
+
+2. As "Tags" do JavaScript (Palavras-Reservadas / Keywords)
+
+Se você se refere aos comandos básicos que fazem o JavaScript funcionar, estamos falando das palavras-reservadas. Elas não podem ser usadas como nomes de variáveis porque já têm funções específicas na linguagem. Aqui estão as mais utilizadas, divididas por categorias:
+
+📦 Declaração de Variáveis
+
+* `let`: Cria uma variável cujo valor pode ser alterado depois. (É a forma mais moderna e recomendada).
+* `const`: Cria uma constante; ou seja, um valor que **não** pode ser alterado depois de criado.
+* `var`: A forma antiga de criar variáveis (hoje em dia, evitamos usar em favor do `let` e `const`).
+
+🔀 Estruturas de Decisão (Condicionais)
+
+* `if` / `else`: O famoso "Se isso acontecer, faça isso; senão, faça aquilo".
+* `switch` / `case` / `default`: Usado quando você tem muitas condições possíveis para checar a mesma variável, funcionando como uma lista de escolhas.
+
+🔄 Estruturas de Repetição (Loops)
+
+* `for`: Repete um bloco de código um número específico de vezes.
+* `while`: Repete um código enquanto uma condição for verdadeira.
+* `break`: Força a parada e a saída imediata de um loop.
+* `continue`: Pula a repetição atual do loop e vai direto para a próxima.
+
+🛠️ Funções
+
+* `function`: A palavra usada para criar um bloco de código reutilizável (uma função).
+* `return`: Usada dentro de uma função para devolver um resultado específico quando ela termina de rodar.
+
+🚨 Tratamento de Erros
+
+* `try`: Testa um bloco de código buscando por erros.
+* `catch`: Executa um código para lidar com o erro caso o bloco `try` falhe.
+* `finally`: Executa um código independentemente de ter dado erro ou não.
+* `throw`: Cria (dispara) um erro personalizado.
+
+🏗️ Orientação a Objetos e Classes
+
+* `class`: Cria um "molde" para objetos.
+* `new`: Instancia (cria) um novo objeto a partir de uma classe.
+* `this`: Refere-se ao objeto atual em que o código está sendo executado.
+
+⏳ Assincronicidade (Avançado)
+
+* `async`: Informa que uma função trabalha de forma paralela (assíncrona) ao resto do código.
+* `await`: Faz o código "pausar" e esperar o resultado de uma função assíncrona antes de continuar.
+
+---
+
+Como a linguagem é imensa, focar nesses blocos iniciais é o melhor caminho para dominar o JavaScript.
