@@ -23,19 +23,26 @@ class EnderecoController {
     const jsonEndereco = await getEndereco.json();
 
     const newEndereco = {
-        id_cliente: 2,
-        rua: jsonEndereco.logradouro,
-        numero: "",
-        complemento: "",
-        bairro: jsonEndereco.bairro,
-        cidade: jsonEndereco.localidade,
-        estado: jsonEndereco.uf,
-        cep,
-      }
-  
+      id_cliente: 2,
+      rua: jsonEndereco.logradouro,
+      numero: "",
+      complemento: "",
+      bairro: jsonEndereco.bairro,
+      cidade: jsonEndereco.localidade,
+      estado: jsonEndereco.uf,
+      cep,
+    };
 
-    return res.status(200).json({
-      endereco: newEndereco,
+    const enderecoCreated = await enderecoModel.createEndereco(newEndereco);
+
+    if (enderecoCreated.affectedRows > 0) {
+      return res.status(200).json({
+        succsess: "Endereço cadastrado com sucesso!",
+      });
+    }
+
+    return res.status(500).json({
+      error: "Erro ao cadastrar o endereço!",
     });
   }
 }

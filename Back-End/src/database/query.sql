@@ -28,7 +28,7 @@ CREATE TABLE users (
 
 CREATE TABLE endereco (
     endereco_id INT AUTO_INCREMENT PRIMARY KEY,
-    cliente_id INT NOT NULL,
+    id_cliente INT NOT NULL,
     rua VARCHAR(255) NOT NULL,
     numero VARCHAR(20) NOT NULL,
     complemento VARCHAR(255),
@@ -36,7 +36,7 @@ CREATE TABLE endereco (
     cidade VARCHAR(255) NOT NULL,
     estado VARCHAR(255) NOT NULL,
     cep VARCHAR(20) NOT NULL,
-    FOREIGN KEY (cliente_id) REFERENCES clientes (id_cliente) ON DELETE CASCADE
+    FOREIGN KEY (id_cliente) REFERENCES clientes (id_cliente) ON DELETE CASCADE
 ); 21ms
 
 INSERT INTO
@@ -82,3 +82,7 @@ VALUES (
         "(11)04434-6689",
         4
     );
+
+    select * from endereco
+    
+    DROP TABLE endereco
