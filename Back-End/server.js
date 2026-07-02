@@ -11,6 +11,7 @@ import routerEditora from "./src/routes/editoraRoutes.js";
 import userRouter from "./src/routes/userRoutes.js";
 import coockieParser from "cookie-parser";
 import loginRoute from "./src/routes/loginRoutes.js";
+import enderecoRouter from "./src/routes/enderecoRoutes.js";
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use("/categorias", routerCategoria);
 app.use("/editoras", routerEditora);
 app.use("/users", userRouter);
 app.use("/auth", loginRoute);
+app.use("/endereco", enderecoRouter);
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando em ${PORT}`);

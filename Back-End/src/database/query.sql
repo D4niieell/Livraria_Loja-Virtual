@@ -26,6 +26,19 @@ CREATE TABLE users (
     FOREIGN KEY (role_id) REFERENCES roles (role_id)
 );
 
+CREATE TABLE endereco (
+    endereco_id INT AUTO_INCREMENT PRIMARY KEY,
+    cliente_id INT NOT NULL,
+    rua VARCHAR(255) NOT NULL,
+    numero VARCHAR(20) NOT NULL,
+    complemento VARCHAR(255),
+    bairro VARCHAR(255) NOT NULL,
+    cidade VARCHAR(255) NOT NULL,
+    estado VARCHAR(255) NOT NULL,
+    cep VARCHAR(20) NOT NULL,
+    FOREIGN KEY (cliente_id) REFERENCES clientes (id_cliente) ON DELETE CASCADE
+); 21ms
+
 INSERT INTO
     roles (role_name)
 VALUES ("clientes"),
@@ -40,7 +53,7 @@ INSERT INTO
         user_password,
         user_phone,
         role_id
-    )
+            )
 VALUES (
         "Daniel",
         "daniel.augusto@email.com",
