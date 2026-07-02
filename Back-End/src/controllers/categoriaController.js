@@ -9,7 +9,7 @@ class CategoriaController {
       res.status(500).json({ error: error.message });
     }
   }
-  // =============================================================================
+
   async createCategoria(req, res) {
     try {
       const result = await CategoriaModel.createCategoria(req.body);
@@ -20,7 +20,7 @@ class CategoriaController {
       res.status(500).json({ error: error.message });
     }
   }
-  // =============================================================================
+
   async updateCategoria(req, res) {
     try {
       const { id } = req.params;
@@ -30,7 +30,7 @@ class CategoriaController {
       res.status(500).json({ error: error.message });
     }
   }
-  // =============================================================================
+
   async deleteCategoria(req, res) {
     try {
       const { id } = req.params;
@@ -40,7 +40,7 @@ class CategoriaController {
       res.status(500).json({ error: error.message });
     }
   }
-  // =============================================================================
+
   async getCategoriaById(req, res) {
     try {
       const { id } = req.params;
@@ -54,5 +54,5 @@ class CategoriaController {
     }
   }
 }
-// =============================================================================
+
 export default new CategoriaController();

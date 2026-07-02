@@ -37,7 +37,9 @@ CREATE TABLE endereco (
     estado VARCHAR(255) NOT NULL,
     cep VARCHAR(20) NOT NULL,
     FOREIGN KEY (id_cliente) REFERENCES clientes (id_cliente) ON DELETE CASCADE
-); 21ms
+); 
+
+DROP TABLE endereco;
 
 INSERT INTO
     roles (role_name)

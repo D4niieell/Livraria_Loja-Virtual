@@ -1,5 +1,5 @@
 import comprasModel from "../models/comprasModel.js";
-// =============================================================================
+
 class ComprasController {
   async showCompras(req, res) {
     try {
@@ -9,7 +9,7 @@ class ComprasController {
       res.status(500).json({ error: error.message });
     }
   }
-  // =============================================================================
+
   async getComprasById(req, res) {
     try {
       const { id } = req.params;
@@ -22,7 +22,7 @@ class ComprasController {
       res.status(500).json({ error: error.message });
     }
   }
-  // =============================================================================
+
   async createCompras(req, res) {
     try {
       const result = await comprasModel.createCompras(req.body);
@@ -31,7 +31,7 @@ class ComprasController {
       res.status(500).json({ error: error.message });
     }
   }
-  // =============================================================================
+
   async updateCompras(req, res) {
     try {
       const { id } = req.params;
@@ -41,7 +41,7 @@ class ComprasController {
       res.status(500).json({ error: error.message });
     }
   }
-  // =============================================================================
+
   async deleteCompras(req, res) {
     try {
       const { id } = req.params;
@@ -52,5 +52,5 @@ class ComprasController {
     }
   }
 }
-// =============================================================================
+
 export default new ComprasController();

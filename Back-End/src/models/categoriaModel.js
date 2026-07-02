@@ -1,11 +1,11 @@
 import pool from "../database/database.js";
-// =============================================================================
+
 class CategoriaModel {
   async showCategorias() {
     const [rows] = await pool.execute("SELECT * FROM categorias");
     return rows;
   }
-  // =============================================================================
+
   async getCategoriaById(id) {
     const [rows] = await pool.execute(
       "SELECT * FROM categorias WHERE id_categoria = ?",
@@ -13,7 +13,7 @@ class CategoriaModel {
     );
     return rows[0];
   }
-  // =============================================================================
+
   async createCategoria(data) {
     const { nome } = data;
     const [row] = await pool.execute(
@@ -22,7 +22,7 @@ class CategoriaModel {
     );
     return row;
   }
-  // =============================================================================
+
   async updateCategoria(id, data) {
     const { categoria } = data;
     const [row] = await pool.execute(
@@ -31,7 +31,7 @@ class CategoriaModel {
     );
     return row;
   }
-  // =============================================================================
+
   async deleteCategoria(id) {
     const [row] = await pool.execute(
       "DELETE FROM categorias WHERE id_categoria = ?",
@@ -40,5 +40,5 @@ class CategoriaModel {
     return row;
   }
 }
-// =============================================================================
+
 export default new CategoriaModel();

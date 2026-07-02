@@ -1,7 +1,7 @@
 import livrosModel from "../models/livrosModel.js";
-// =============================================================================
+
 class LivrosController {
-  // =============================================================================
+
   async showLivros(req, res) {
     try {
       const result = await livrosModel.showLivros();
@@ -10,7 +10,7 @@ class LivrosController {
       res.status(500).json({ error: error.message });
     }
   }
-  // =============================================================================
+
   async getLivroById(req, res) {
     try {
       const { id } = req.params;
@@ -23,7 +23,7 @@ class LivrosController {
       res.status(500).json({ error: error.message });
     }
   }
-  // =============================================================================
+
   async createLivro(req, res) {
     try {
       const result = await livrosModel.createLivro(req.body);
@@ -32,7 +32,7 @@ class LivrosController {
       res.status(500).json({ error: error.message });
     }
   }
-  // =============================================================================
+
   async updateLivro(req, res) {
     try {
       const { id } = req.params;
@@ -42,7 +42,7 @@ class LivrosController {
       res.status(500).json({ error: error.message });
     }
   }
-  // =============================================================================
+
   async deleteLivro(req, res) {
     try {
       const { id } = req.params;
@@ -53,5 +53,5 @@ class LivrosController {
     }
   }
 }
-// =============================================================================
+
 export default new LivrosController();

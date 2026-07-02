@@ -1,7 +1,7 @@
 import pool from "../database/database.js";
-// =============================================================================
+
 class LivroModel {
-  // =============================================================================
+
   async showLivros() {
     const [rows] = await pool.execute(
       `
@@ -18,7 +18,7 @@ class LivroModel {
     );
     return rows;
   }
-  // =============================================================================
+
   async getLivroById(id) {
     const [rows] = await pool.execute(
       `
@@ -37,7 +37,7 @@ class LivroModel {
     );
     return rows;
   }
-  // =============================================================================
+
   async createLivro(data) {
     const { titulo, autor, preco, estoque, id_categoria, id_editora } = data;
     const [row] = await pool.execute(
@@ -46,7 +46,7 @@ class LivroModel {
     );
     return row;
   }
-  // =============================================================================
+
   async updateLivro(id, data) {
     const { titulo, autor, preco, estoque, id_categoria, id_editora } = data;
     const [row] = await pool.execute(
@@ -55,7 +55,7 @@ class LivroModel {
     );
     return row;
   }
-  // =============================================================================
+
   async deleteLivro(id) {
     const [row] = await pool.execute("DELETE FROM livros WHERE id_livro = ?", [
       id,
@@ -63,5 +63,5 @@ class LivroModel {
     return row;
   }
 }
-// =============================================================================
+
 export default new LivroModel();

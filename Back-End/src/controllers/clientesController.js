@@ -1,8 +1,8 @@
 import clientesModel from "../models/clientesModel.js";
 import ClienteModel from "../models/clientesModel.js";
-// =============================================================================
+
 class ClienteController {
-  // =============================================================================
+
   async showClientes(req, res) {
     try {
       const clientes = await ClienteModel.showClientes();
@@ -11,7 +11,7 @@ class ClienteController {
       res.status(500).json({ error: error.message });
     }
   }
-  // =============================================================================
+
   async getClienteById(req, res) {
     try {
       const { id } = req.params;
@@ -24,7 +24,7 @@ class ClienteController {
       res.status(500).json({ error: error.message });
     }
   }
-  // =============================================================================
+
   async getClienteByEmail(req, res) {
     try {
       const { email } = req.params;
@@ -37,7 +37,7 @@ class ClienteController {
       res.status(500).json({ error: error.message });
     }
   }
-  // =============================================================================
+
   async createCliente(req, res) {
     try {
       const { nome, email, telefone, cidade, estado } = req.body;
@@ -54,7 +54,7 @@ class ClienteController {
       res.status(500).json({ message: error.message });
     }
   }
-  // =============================================================================
+
   async updateCliente(req, res) {
     try {
       const [findEmail] = await clientesModel.selectClienteByEmail(
@@ -68,7 +68,7 @@ class ClienteController {
       res.status(500).json({ error: error.message });
     }
   }
-  // =============================================================================
+
   async deleteCliente(req, res) {
     try {
       const { id } = req.params;
@@ -79,5 +79,5 @@ class ClienteController {
     }
   }
 }
-// =============================================================================
+
 export default new ClienteController();

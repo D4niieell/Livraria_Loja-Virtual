@@ -1,7 +1,7 @@
 import EditoraModel from "../models/editoraModels.js";
-// =============================================================================
+
 class EditoraController {
-  // =============================================================================
+
   async showEditoras(req, res) {
     try {
       const editoras = await EditoraModel.showEditora();
@@ -10,7 +10,7 @@ class EditoraController {
       res.status(500).json({ error: error.message });
     }
   }
-  // =============================================================================
+
   async getEditoraById(req, res) {
     try {
       const { id } = req.params;
@@ -23,7 +23,7 @@ class EditoraController {
       res.status(500).json({ error: error.message });
     }
   }
-  // =============================================================================
+
   async createEditora(req, res) {
     try {
       const dados = req.body;
@@ -33,7 +33,7 @@ class EditoraController {
       res.status(500).json({ error: error.message });
     }
   }
-  // =============================================================================
+
   async updateEditora(req, res) {
     try {
       const { id } = req.params;
@@ -46,7 +46,7 @@ class EditoraController {
       res.status(500).json({ error: error.message });
     }
   }
-  // =============================================================================
+
   async deleteEditora(req, res) {
     try {
       const { id } = req.params;
@@ -60,5 +60,5 @@ class EditoraController {
     }
   }
 }
-// =============================================================================
+
 export default new EditoraController();

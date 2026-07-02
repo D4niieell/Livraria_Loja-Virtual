@@ -2,6 +2,7 @@ import pool from "../database/database.js";
 
 class EnderecoModel {
   async createEndereco(endereco) {
+
     const {
       id_cliente,
       rua,
@@ -12,15 +13,18 @@ class EnderecoModel {
       estado,
       cep,
     } = endereco;
+
     const query = `INSERT INTO endereco (
         id_cliente,
         rua, 
         numero, 
         complemento,
         bairro,
+        cidade,
         estado,
         cep)
-    VALUES (?, ?, ?, ?, ?, ?, ?)`;
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+    
     const [result] = await pool.query(query, [
       id_cliente,
       rua,

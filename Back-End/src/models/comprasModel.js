@@ -1,5 +1,5 @@
 import pool from "../database/database.js";
-// =============================================================================
+
 class ComprasModel {
   async showCompras() {
     const [rows] = await pool.execute(
@@ -17,7 +17,7 @@ class ComprasModel {
     );
     return rows;
   }
-  // =============================================================================
+
   async getComprasById(id) {
     const [rows] = await pool.execute(
       `
@@ -36,7 +36,7 @@ class ComprasModel {
     );
     return rows;
   }
-  // =============================================================================
+
   async createCompras(data) {
     const { qtde, valor, desconto, id_livro, id_cliente } = data;
     const [row] = await pool.execute(
@@ -45,7 +45,7 @@ class ComprasModel {
     );
     return row;
   }
-  // =============================================================================
+
   async updateCompras(id, data) {
     const { qtde, valor, desconto, id_livro, id_cliente } = data;
     const [row] = await pool.execute(
@@ -54,7 +54,7 @@ class ComprasModel {
     );
     return row;
   }
-  // =============================================================================
+
   async deleteCompras(id) {
     const [row] = await pool.execute(
       "DELETE FROM compras WHERE id_compra = ?",
@@ -63,5 +63,5 @@ class ComprasModel {
     return row;
   }
 }
-// =============================================================================
+
 export default new ComprasModel();
