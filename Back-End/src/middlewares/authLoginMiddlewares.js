@@ -4,27 +4,40 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export const authenticationToken = (req, res, next) => {
-    const getToken = req.headers.authorization;
-    const bearerToken = getToken.split(" ")[1];
+  const getToken = req.headers.authorization;
+  const bearerToken = getToken.split(" ")[1];
 
-    if (!bearerToken) {
-        return res.status(401).json({
-            error: "Token não fornecido!"
-        })
+  if (!bearerToken) {
+    return res.status(401).json({
+      error: "Token não fornecido!",
+    });
+  }
+
+  jwt.verify(bearerToken, process.env.ACCESS_TOKEN_SECRET, (error, user) => {
+    if (error) {
+      return res.status(403).json({
+        error: "Token inválido!",
+      });
     }
 
-    jwt.verify(
-        bearerToken,
-        process.env.ACCESS_TOKEN_SECRET,
-        (error, user) => {
-            if (error) {
-                return res.status(403).json({
-                    error: "Token inválido!"
-                });
-            }
+    req.user = user;
+    next();
+  });
+};
 
-            req.user = user;
-            next();
-        }
-    )
-}
+export const adminRole = (...allowedRoles) => {
+  return (req, res, next) => {
+    if (!req.user) {
+      return res.status(401).json({
+        error: "Usuário não autenticado!",
+      });
+    }
+
+    if (!allowedRoles.includes(req.user.role)) {
+      return res.status(403).json({
+        error: "Voce não tem permissão para realizar está ação!",
+      });
+    }
+    next();
+  };
+};
