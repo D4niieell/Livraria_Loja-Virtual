@@ -10,7 +10,7 @@ const routeCliente = express.Router();
 routeCliente.get(
     "/",
     authenticationToken,
-    adminRole("admin"),
+    adminRole("admin", "vendedor", "gerente"),
     clientesController.showClientes,
 );
 
