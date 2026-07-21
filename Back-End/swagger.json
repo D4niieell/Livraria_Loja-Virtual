@@ -1,0 +1,77 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Livraria Virtual API",
+        "version": "1.0.0",
+        "description": "API REST para gerenciamento de livros e clientes"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000",
+            "description": "Servidor de desenvolvimento"
+        }
+    ],
+    "paths": {
+        "/auth/login": {
+            "post": {
+                "summary": "Login do usuário",
+                "description": "Realiza o login do usuário",
+                "tags": ["Autenticação"],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "user_email": {
+                                        "type": "string",
+                                        "description": "Email do usuário",
+                                        "example": "exemplo@dominio.com"
+                                    },
+                                    "user_password": {
+                                        "type": "string",
+                                        "description": "Senha do usuário",
+                                        "example": "Senha123@"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login realizado com sucesso"
+                    },
+                    "401": {
+                       "description": "Credenciais inválidas" 
+                    },
+                    "404": {
+                        "description": "Usuario não encontrado"
+                    },
+                    "500": {
+                        "description": "Erro interno do servidor"
+                    }
+                },
+                "responseHeader": {
+                    "set-cookie": {
+                        "description": "Bearer token Autenticação JWT para acessar rotas protegidas",
+                        "schema": {
+                            "type": "string",
+                            "example": "Bearer"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components":{
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    }
+}

@@ -10,9 +10,11 @@ import routerCategoria from "./src/routes/categoriaRoutes.js";
 import routerEditora from "./src/routes/editoraRoutes.js";
 import userRouter from "./src/routes/userRoutes.js";
 import coockieParser from "cookie-parser";
+import swaggerUi from "swagger-ui-express";
 import loginRoute from "./src/routes/loginRoutes.js";
 import enderecoRouter from "./src/routes/enderecoRoutes.js";
 import uploadRoutes from "./src/routes/uploadRoutes.js";
+import swaggerDocs from "./swagger.json" with { type: "json"};
 
 const app = express();
 
@@ -26,6 +28,7 @@ app.use(
 );
 app.use(express.json());
 app.use(coockieParser());
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.use("/clientes", routeCliente);
 app.use("/livros", routerLivros);

@@ -14,7 +14,7 @@ class AuthLoginController {
     const [emailExists] = await userModels.selectUserByEmail(user_email);
 
     if (!emailExists) {
-      return res.ststus(400).json({
+      return res.status(400).json({
         error: "Email ou senha são inválidos!",
       });
     }

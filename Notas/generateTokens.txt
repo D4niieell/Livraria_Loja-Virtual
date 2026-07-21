@@ -1,0 +1,129 @@
+Imports
+
+```javascript
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+```
+
+- `jsonwebtoken`: biblioteca padrão do Node.js para criar e verificar tokens JWT.
+- `dotenv`: carrega variáveis de ambiente de um arquivo `.env` para dentro de `process.env`.
+
+```javascript
+dotenv.config();
+```
+
+Isso lê o arquivo `.env` do projeto e injeta suas variáveis (como `ACCESS_TOKEN_SECRET`) em `process.env`, para que possam ser usadas no código.
+
+A classe
+
+```javascript
+class GenerateTokens {
+  generateAccessToken(user) {
+    ...
+  }
+}
+```
+
+Define uma classe `GenerateTokens` com um método `generateAccessToken`, responsável por criar o token de acesso a partir dos dados de um usuário.
+
+O método `generateAccessToken`
+
+```javascript
+const accessToken = jwt.sign(
+  {
+    id: user.user_id,
+    email: user.user_email,
+    role: user.role_name,
+  },
+  process.env.ACCESS_TOKEN_SECRET,
+  { expiresIn: "15m" }
+);
+```
+
+O `jwt.sign()` recebe `3 argumentos`:
+
+1. Payload: os dados que ficarão codificados dentro do token — nesse caso, o `id`, `email` e `role` do usuário. Essas informações poderão ser lidas depois (sem precisar consultar o banco de dados novamente) ao decodificar o token.
+
+2. Segredo (secret): `process.env.ACCESS_TOKEN_SECRET` é uma chave secreta guardada em variável de ambiente, usada para "assinar" o token criptograficamente. É essa assinatura que garante que o token não foi adulterado — só quem conhece esse segredo consegue gerar um token válido ou verificar um.
+
+3. Opções: `{ expiresIn: "15m" }` define que o token expira em 15 minutos. Depois desse tempo, ele se torna inválido (por isso, em geral, sistemas assim também usam um "refresh token" com validade maior, para renovar o access token sem exigir novo login).
+
+```javascript
+return accessToken;
+```
+
+Por fim, o método retorna a string do token gerado (algo como `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...`), que normalmente é enviada ao cliente (front-end) para ser usada em requisições futuras, geralmente no header `Authorization: Bearer <token>`.
+
+Resumo do fluxo
+
+1. Usuário faz login com sucesso.
+2. O servidor chama `generateAccessToken(user)`.
+3. Um JWT é criado contendo dados do usuário, assinado com a chave secreta e válido por 15 minutos.
+4. O token é devolvido ao cliente, que o usa para se autenticar em rotas protegidas.
+
+Esse trecho complementa a classe `GenerateTokens`, adicionando o método para gerar o **refresh token** e depois exportando uma instância da classe.
+
+* O método `generateRefreshToken`
+
+```javascript
+generateRefreshToken(user) {
+  const refreshToken = jwt.sign(
+    {
+      id: user.user_id,
+    },
+    process.env.REFRESH_TOKEN_SECRET,
+    { expiresIn: "7d" }
+  );
+
+  return refreshToken;
+}
+```
+
+Segue a mesma lógica do `generateAccessToken`, mas com diferenças importantes:
+
+- Payload menor: contém apenas o `id` do usuário, e não `email` e `role`. Isso é proposital — o refresh token tem uma única função (gerar novos access tokens), então não precisa carregar informações extras. Menos dados expostos = menos risco caso o token vaze.
+
+- "Segredo diferente": usa `REFRESH_TOKEN_SECRET`, uma chave separada da usada no access token. Isso é uma boa prática de segurança: se o segredo de um tipo de token for comprometido, o outro continua seguro.
+
+-  "Validade maior": `expiresIn: "7d"` — dura 7 dias, bem mais que os 15 minutos do access token.
+
+* Por que ter dois tokens?
+
+Essa é a estratégia clássica de autenticação com access token + refresh token:
+
+---
+| Token | Duração | Função |
+---
+| Access Token | curta (15min) | autenticar o usuário nas requisições do dia a dia |
+---
+| Refresh Token | longa (7 dias) | gerar um novo access token quando o antigo expirar, sem exigir novo login |
+---
+
+Isso equilibra segurança e usabilidade: o access token expira rápido (limitando o dano se for roubado), enquanto o refresh token evita que o usuário precise digitar login/senha toda hora. O refresh token normalmente é guardado de forma mais protegida (ex: cookie `httpOnly`), justamente por ter validade mais longa.
+
+* Exportação
+
+```javascript
+export default new GenerateTokens();
+```
+
+Aqui a classe é instanciada **imediatamente** e essa instância (não a classe em si) é exportada como padrão do módulo.
+
+Isso significa que, em outro arquivo, o uso seria assim:
+
+```javascript
+import generateTokens from "./GenerateTokens.js";
+
+const access = generateTokens.generateAccessToken(user);
+const refresh = generateTokens.generateRefreshToken(user);
+```
+
+É basicamente um padrão singleton: como a classe não guarda nenhum estado interno (não tem `constructor` nem propriedades), faz sentido exportar uma única instância pronta para uso, em vez de exigir que quem importa faça `new GenerateTokens()` toda vez.
+
+* Fluxo completo, juntando as duas peças
+
+1. Login bem-sucedido → gera access token (15 min) e **refresh token** (7 dias).
+2. Cliente usa o access token nas requisições normais.
+3. Quando o access token expira, o cliente envia o refresh token para uma rota tipo `/refresh-token`.
+4. O servidor valida o refresh token e, se for válido, gera um **novo access token** — sem precisar que o usuário faça login de novo.
+5. Quando o refresh token também expirar (após 7 dias), aí sim o usuário precisa logar novamente.
