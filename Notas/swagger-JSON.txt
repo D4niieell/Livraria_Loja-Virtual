@@ -1,0 +1,41 @@
+Vou explicar por partes:
+
+ 1. Metadados gerais (`info`)
+```json
+"info": {
+    "title": "Livraria Virtual API",
+    "version": "1.0.0",
+    "description": "..."
+}
+```
+Define o nome, versão e descrição da API — aparece no topo da documentação gerada.
+
+ 2. Servidores (`servers`)
+```json
+"servers": [{ "url": "http://localhost:8000", ... }]
+```
+Lista os endereços base onde a API está hospedada. Aqui só tem o servidor local de desenvolvimento.
+
+ 3. Rotas (`paths`)
+Define o único endpoint documentado: `POST /auth/login`
+
+-   `summary`/`description  explicam o que a rota faz (login do usuário).
+-   `tags`  : agrupa a rota sob "Autenticação" na documentação.
+-   `requestBody` : descreve o corpo esperado na requisição — um JSON com `user_email` e `user_password`, cada um com um exemplo.
+-  responses:  lista os possíveis códigos de retorno HTTP:
+  - `200`: login bem-sucedido
+  - `401`: credenciais inválidas
+  - `404`: usuário não encontrado
+  - `500`: erro interno do servidor
+
+ 4. Componentes de segurança (`components.securitySchemes`)
+```json
+"bearerAuth": {
+    "type": "http",
+    "scheme": "bearer",
+    "bearerFormat": "JWT"
+}
+```
+Declara um esquema de autenticação via Bearer Token JWT, que pode ser reutilizado em outras rotas protegidas da API (bastaria referenciá-lo com `security: [{ bearerAuth: [] }]`).
+
+---

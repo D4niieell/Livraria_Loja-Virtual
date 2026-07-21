@@ -13,57 +13,104 @@
     ],
     "paths": {
         "/auth/login": {
-            "post": {
-                "summary": "Login do usuário",
-                "description": "Realiza o login do usuário",
-                "tags": ["Autenticação"],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "user_email": {
-                                        "type": "string",
-                                        "description": "Email do usuário",
-                                        "example": "exemplo@dominio.com"
-                                    },
-                                    "user_password": {
-                                        "type": "string",
-                                        "description": "Senha do usuário",
-                                        "example": "Senha123@"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Login realizado com sucesso"
-                    },
-                    "401": {
-                       "description": "Credenciais inválidas" 
-                    },
-                    "404": {
-                        "description": "Usuario não encontrado"
-                    },
-                    "500": {
-                        "description": "Erro interno do servidor"
-                    }
-                },
-                "responseHeader": {
-                    "set-cookie": {
-                        "description": "Bearer token Autenticação JWT para acessar rotas protegidas",
-                        "schema": {
-                            "type": "string",
-                            "example": "Bearer"
-                        }
-                    }
+      "post": {
+        "summary": "Login de usuário",
+        "description": "Realiza o login do usuário",
+        "tags": ["Autenticação"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user_email": {
+                    "type": "string",
+                    "description": "Email do usuário",
+                    "example": "exemplo@dominio.com"
+                  },
+                  "user_password": {
+                    "type": "string",
+                    "description": "Senha do usuário",
+                    "example": "Senha123@"
+                  }
                 }
+              }
             }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login realizado com sucesso"
+          },
+          "401": {
+            "description": "Email ou senha inválidos"
+          },
+          "404": {
+            "description": "Usuário não encontrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        },
+        "responseHeader": {
+          "set-cookie": {
+            "description": "Bearer token Autenticação JWT para acessar rotas protegidas",
+            "schema": {
+              "type": "string",
+              "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNzIwNDYyMzk1fQ.SpY5s8Y7y9m0v6t8w4y2x0z1q3r5s7t9u1v3w5x7y9z"
+            }
+          }
         }
+      }
+    },
+    "/auth/refresh": {
+      "post": {
+        "summary": "Refresh Token de usuário",
+        "description": "Realiza o refresh token do usuário",
+        "tags": ["Autenticação"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "token": {
+                    "type": "string",
+                    "description": "Token de refresh do usuário",
+                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNzIwNDYyMzk1fQ.SpY5s8Y7y9m0v6t8w4y2x0z1q3r5s7t9u1v3w5x7y9z"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Token de refresh realizado com sucesso"
+          },
+          "401": {
+            "description": "Token de refresh inválido"
+          },
+          "400": {
+            "description": "Senha inválida"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        },
+        "responseHeader": {
+          "set-cookie": {
+            "description": "Cookie para refresh token",
+            "schema": {
+              "type": "string",
+              "example": "refreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNzIwNDYyMzk1fQ.SpY5s8Y7y9m0v6t8w4y2x0z1q3r5s7t9u1v3w5x7y9z"
+            }
+          }
+        }
+      }
+    }
     },
     "components":{
         "securitySchemes": {
