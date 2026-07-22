@@ -102,6 +102,33 @@
           }
         }
       }
+    },
+    "/users": {
+      "get": {
+        "summary": "Busca todos os usuários",
+        "description": "Busca todos os usuários",
+        "tags": ["Usuários"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuário retornados com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Users"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
     },
     "components":{
@@ -122,6 +149,26 @@
           "type": "object",
           "properties": {
             "token": {
+              "type": "string"
+            }
+          }
+        },
+        "Users": {
+          "type": "object",
+          "properties": {
+            "user_id": {
+              "type": "integer"
+            },
+            "user_name": {
+              "type": "string"
+            },
+            "user_email": {
+              "type": "string"
+            },
+            "user_password": {
+              "type": "string"
+            },
+            "user_role": {
               "type": "string"
             }
           }
