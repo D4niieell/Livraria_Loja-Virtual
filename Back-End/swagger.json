@@ -57,15 +57,12 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "token": {
-                    "type": "string",
-                    "description": "Token de refresh do usuário",
-                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNzIwNDYyMzk1fQ.SpY5s8Y7y9m0v6t8w4y2x0z1q3r5s7t9u1v3w5x7y9z"
-                  }
-                }
+                "$ref":"#/components/schemas/RefreshToken"
+              },
+              "token": {
+                "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNzIwNDYyMzk1fQ.SpY5s8Y7y9m0v6t8w4y2x0z1q3r5s7t9u1v3w5x7y9z"
               }
+
             }
           }
         },
@@ -129,8 +126,46 @@
           }
         }
       }
-    }
     },
+    "/users/user_id/{user_id": {
+      "get": {
+        "summary":"Busca um usuario por ID",
+        "description": "Busca um usuario por ID",
+        "tags": ["Usuários"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "description": "ID do usuário",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuário retornado com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Users"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
     "components":{
       "schemas": {
         "Login": {
